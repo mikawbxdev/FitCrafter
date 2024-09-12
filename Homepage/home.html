@@ -6,15 +6,21 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-        <h1>FitCrafter</h1>
-        <div class="maincontainer">
+    <h1>FitCrafter</h1>
+    <div class="maincontainer">
       <div class = "sidebar" id="leftbar">
-
       </div>
-      <div class = "middlecontainer">
-    </div>
+      <div class = "middlecontainer" id = "middlecontainer">
+      </div>
       <div class = "sidebar" id="rightbar">
       </div>
     </div>
+
+    <script>
+        document.getElementById("leftbar").innerHTML = '<object type="text/html" data="leftbar.html"></object>';
+        document.getElementById("middlecontainer").innerHTML = '<object type="text/html" data="middlecontainer.html"></object>';
+        document.getElementById("rightbar").innerHTML = '<object type="text/html" data="rightbar.html"></object>';
+    </script>
+
 </body>
 </html>
