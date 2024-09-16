@@ -4,23 +4,23 @@
     <meta charset="UTF-8">
     <title>FitCrafter</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <script src="index.js"></script>
 </head>
 <body>
-    <h1>FitCrafter</h1>
     <div class="maincontainer">
       <div class = "sidebar" id="leftbar">
       </div>
-      <div class = "middlecontainer" id = "middlecontainer">
+      <div class = "maincontainer" id="middlecontainer">
+          <div class="homePageContainer">
+              <div class="homePageClothing">
+              </div>
+              <input type="text" id="fitName" placeholder="Give this fit a name...">
+          </div>
       </div>
       <div class = "sidebar" id="rightbar">
       </div>
     </div>
-
-    <script>
-        document.getElementById("leftbar").innerHTML = '<object type="text/html" data="leftbar.html"></object>';
-        document.getElementById("middlecontainer").innerHTML = '<object type="text/html" data="middlecontainer.html"></object>';
-        document.getElementById("rightbar").innerHTML = '<object type="text/html" data="rightbar.html"></object>';
-    </script>
 
 </body>
 </html>
