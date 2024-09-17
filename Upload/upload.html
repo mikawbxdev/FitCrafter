@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FitCrafter - Kleiderschrank</title>
+    <title>FitCrafter - Dein Account</title>
     <link rel="stylesheet" href="../Homepage/styles.css">
-    <link rel="stylesheet" href="closet.css">
+    <link rel="stylesheet" href="../Closet%20page/closet.css">
+    <link rel="stylesheet" href="upload.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <script src="index.js"></script>
 </head>
 <body>
 <div class="maincontainer">
@@ -27,12 +29,20 @@
         </button>
     </div>
     <div class = "maincontainer" id="middlecontainer">
-            <div class="gridContainer">
-                <script>
-                    window.onload = function() {
-                        loaditems(); // Die Funktion wird nach dem Laden der Seite aufgerufen
-                    }
-                </script>
+        <div class="uploadContainer">
+            <h2>Upload</h2>
+            <div class="upload-box" id="uploadBox">
+                <img src="../.Content/Icons/uploadicon.png"/>
+                <p>Drag & Drop your files here or click to upload</p>
+                <input type="file" id="fileInput" multiple hidden>
+            </div>
+            <div id="fileList"></div>
+            <button class="submitButton" id="nextButton" onclick="showfiles();" disabled>Next</button>
+            <script src="upload.js"></script>
+        </div>
+    </div>
+    <div class = "maincontainer" id="middlecontainer2">
+            <div class="gridContainer" id="uploadContainer2">
                 <div class="itembox" id="plus">
                     +
                 </div>

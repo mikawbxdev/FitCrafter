@@ -30,6 +30,9 @@
     transition: 0.15s;
     background-color: var(--secondary);
     overflow: hidden;
+    /*Animation*/
+    animation: slideDown 0.5s ease-in-out;
+    animation-fill-mode: backwards; /* Man sieht vor der Animation den ersten Frame der Animation */
 }
 .itembox:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
@@ -73,4 +76,16 @@
 #plus {
     display: flex;
     font-size: 200%;
+}
+
+/* Animation für den Slide-in-Effekt */
+@keyframes slideDown {
+    0% {
+        transform: scale(0.4);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }

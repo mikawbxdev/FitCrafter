@@ -1,0 +1,93 @@
+
+/* Main Container - Profile */
+
+#middlecontainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.uploadContainer {
+    width: 60%;
+    height: max(20rem, 60%);
+    border-radius: 13px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: var(--secondary);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.accountBox h2 {
+    text-align: center;
+}
+
+/*Upload Area 1*/
+
+.upload-box {
+    width: 90%;
+    height: 45%;
+    max-width: 400px;
+    min-height: 220px;
+    border: 2px dashed #ccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+.upload-box:hover {
+    border-color: #333;
+}
+.upload-box.drag-over {
+    border-color: #007bff;
+    background-color: #f0f8ff;
+}
+.upload-box img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+    object-fit: contain;
+}
+.submitButton {
+    cursor: pointer;
+    font-size: large;
+    font-family: inherit;
+    font-weight: 1000;
+    color: var(--fontcolor);
+    background-color: transparent;
+    padding: 0.6em 2em;
+    border-radius: 50em;
+    border: 6px solid black;
+    box-shadow: 0px 8px grey;
+
+}
+.submitButton:active {
+    position: relative;
+    top: 8px;
+    border: 6px solid black;
+    box-shadow: 0px 0px;
+}
+
+/*Upload Area 2*/
+
+#nextButton:disabled {
+    display: none;
+}
+
+/*Hier ein/ausschalten*/
+
+/*#middlecontainer {*/
+/*    display: none; !*ACHTUNG (flex)*!*/
+/*}*/
+
+#middlecontainer2 {
+    display: none; /*ACHTUNG (flex)*/
+}
+
