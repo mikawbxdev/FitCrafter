@@ -20,8 +20,8 @@ html, body {
     font-family: 'Fifties Movies' , sans-serif;
     background-color: var(--offwhite);
     font-weight: 500;
-
 }
+
 * {
     box-sizing: border-box;
 }
