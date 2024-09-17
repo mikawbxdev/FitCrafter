@@ -31,13 +31,49 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /*border: 1px solid black;*/
 }
 .sidebar {
     width: 6rem;
-    height: 100%;
-    border: 1px solid black;
+    height: max(30rem, 75%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 1rem;
+    border-radius: 13px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     background-color: var(--secondary);
+}
+/* Icons */
+
+.image-button {
+    background-color: var(--secondary);
+    cursor: pointer;
+    outline: none;
+    width: 130%;
+    aspect-ratio: 1 / 1;
+    border-radius: 13px;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.15s;
+    border: none;
+}
+.image-button:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.image-button img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+#bügel {
+    scale: 120%
+}
+#profil {
+    scale: 125%
+}
+#home {
+    scale: 120%
 }
 
 /* Main Container - Home page */

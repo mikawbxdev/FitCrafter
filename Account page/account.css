@@ -45,7 +45,6 @@ input {
 }
 
 .submitButton {
-    /*margin-top: auto;*/
     cursor: pointer;
     font-size: large;
     font-family: inherit;
