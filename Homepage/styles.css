@@ -1,6 +1,11 @@
 :root {
-    --primary-color: #007bff;
-    --secondary-color: #6c757d;
+    --offwhite: #fffff2;
+    --secondary: #fffff9;
+    --fontcolor: #000000;
+}
+@font-face {
+    font-family: 'Fifties Movies';
+    src: url('../.Content/fonts/Fifties Movies.ttf') format('truetype');
 }
 
 html, body {
@@ -12,7 +17,10 @@ html, body {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    font-family: 'Roboto' , sans-serif;
+    font-family: 'Fifties Movies' , sans-serif;
+    background-color: var(--offwhite);
+    font-weight: 500;
+
 }
 * {
     box-sizing: border-box;
@@ -23,53 +31,13 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
 }
 .sidebar {
     width: 6rem;
     height: 100%;
     border: 1px solid black;
-}
-
-/* Main Container - Grid */
-
-.gridContainer {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    padding: 0.1rem;
-    overflow: scroll;
-    box-sizing: border-box;
-    grid-auto-rows: min-content;
-}
-.itembox {
-    aspect-ratio: 1 / 1;
-    border-radius: 13px;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
-.itembox img {
-    width: 87%;
-    height: 87%;
-    object-fit: contain;
-}
-
-.close-btn {
-    position: absolute;
-    top: 5px;
-    right: 7px;
-    cursor: pointer;
-    padding: 0.2rem;
-}
-.close-btn:hover {
-    color: red;
+    background-color: var(--secondary);
 }
 
 /* Main Container - Home page */
@@ -81,37 +49,21 @@ html, body {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
+    background-color: var(--secondary);
 }
 #fitName {
     width: 35%;
 }
-
-/* Main Container - Profile */
-
-#accountBoxContent {
-    width: 100%;
-    height: 70%;
-    text-align: left;
+.accountBox h2 {
+    text-align: center;
 }
 
-#accountBoxContent h2 {
-    text-align: left;
-}
-
-table {
-    width: 80%;
-    font-size: 1.1em;
-}
-
-td {
-    padding: 0.5rem;
-}
-td:first-child {
-    text-align: left;
-}
 input {
     width: 100%;
     padding: 0.6rem;
     border-radius: 1rem;
     font-size: 0.8em;
+}
+input::placeholder {
+    font-family: 'Fifties Movies', sans-serif;
 }
