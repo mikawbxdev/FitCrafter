@@ -59,4 +59,16 @@ function showfiles() {
     }
 }
 
+// Auswahl für die Klamotten
 
+document.querySelectorAll('.select-button').forEach(button => {
+    button.addEventListener('click', function() {
+        // Selected von allen bis auf dem ausgewählten entfernen
+        document.querySelectorAll('.image-button').forEach(btn => btn.classList.remove('selected'));
+        this.classList.add('selected');
+
+        const selection = this.getAttribute('data-selection');
+        // ...
+        console.log(selection)
+    });
+});

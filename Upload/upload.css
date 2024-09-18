@@ -77,17 +77,76 @@
 
 /*Upload Area 2*/
 
+.itembox {
+    width: auto;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 13px;
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0.5rem;
+    position: relative;
+    /*border: 1px solid black;*/
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.15s;
+    background-color: var(--secondary);
+    overflow: hidden;
+    /*Animation*/
+    animation: slideDown 0.5s ease-in-out;
+    animation-fill-mode: backwards; /* Man sieht vor der Animation den ersten Frame der Animation */
+}
+.itembox img {
+    /*border: 1px solid black;*/
+    max-height: 75%;
+    max-width: 90%;
+    object-fit: contain;
+    overflow: hidden;
+}
+
 #nextButton:disabled {
     display: none;
 }
 
+.icon-selection {
+    /*border: 1px solid black;*/
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.select-button {
+    background-color: var(--offwhite);
+    cursor: pointer;
+    width: 22%;
+    aspect-ratio: 1 / 1;
+    border-radius: 13px;
+    padding: 7px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.15s;
+    border: none;
+}
+
+.select-button.selected {
+    border: 2px solid orange;
+}
+
+
+
+
+
+
+
+
 /*Hier ein/ausschalten*/
 
-/*#middlecontainer {*/
-/*    display: none; !*ACHTUNG (flex)*!*/
-/*}*/
-
-#middlecontainer2 {
+#middlecontainer {
     display: none; /*ACHTUNG (flex)*/
 }
+
+/*#middlecontainer2 {*/
+/*    display: none; !*ACHTUNG (flex)*!*/
+/*}*/
 
