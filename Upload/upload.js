@@ -1,39 +1,43 @@
-const uploadBox = document.getElementById('uploadBox');
-const fileInput = document.getElementById('fileInput');
-const fileList = document.getElementById('fileList');
-
 // Globale Variablen
 
 let tempFiles = [];
+let selectionMap = new Map();
 
-// Click to upload
-uploadBox.addEventListener('click', () => {
-    fileInput.click();
-});
+function initDragDrop(){
+    const uploadBox = document.getElementById('uploadBox');
+    const fileInput = document.getElementById('fileInput');
+    const fileList = document.getElementById('fileList');
+    // Click to upload
+    uploadBox.addEventListener('click', () => {
+        fileInput.click();
+    });
 
 // Wenn der Nutzer eine Datei auswählt
-fileInput.addEventListener('change', (e) => {
-    handleFiles(e.target.files);
-});
+    fileInput.addEventListener('change', (e) => {
+        handleFiles(e.target.files);
+    });
 
 // Drag & Drop
-uploadBox.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    uploadBox.classList.add('drag-over');
-});
+    uploadBox.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadBox.classList.add('drag-over');
+    });
 
-uploadBox.addEventListener('dragleave', () => {
-    uploadBox.classList.remove('drag-over');
-});
+    uploadBox.addEventListener('dragleave', () => {
+        uploadBox.classList.remove('drag-over');
+    });
 
-uploadBox.addEventListener('drop', (e) => {
-    e.preventDefault();
-    uploadBox.classList.remove('drag-over');
-    handleFiles(e.dataTransfer.files);
-});
+    uploadBox.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadBox.classList.remove('drag-over');
+        handleFiles(e.dataTransfer.files);
+    });
+}
 
 // Dateien verarbeiten und zur Liste hinzufügen
 function handleFiles(files) {
+    const fileList = document.getElementById('fileList');
+
     fileList.innerHTML = ''; // Leere die Liste vor jeder neuen Auswahl
     const fileItem = document.createElement('p');
     if (files.length > 1) {
@@ -50,25 +54,68 @@ function handleFiles(files) {
 
 // Next Button
 function showfiles() {
+    const middlecontainer = document.getElementById('middlecontainer');
+    const middlecontainer2 = document.getElementById('middlecontainer2');
+    const uploadContainer2 = document.getElementById('uploadContainer2');
+    // let selectionMap = new Map();
+    let itemBoxesHtml = '';
+
+    middlecontainer.style.display = 'none';
+    middlecontainer2.style.display = 'flex';
 
     for (let i = 0; i < tempFiles.length; i++) {
-        const file = tempFiles[i];
-        const fileItem = document.createElement('p');
-        // fileItem.textContent = `File: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
-        fileList.appendChild(fileItem);
+        itemBoxesHtml += createItemBox(tempFiles[i]);
     }
+    uploadContainer2.innerHTML = itemBoxesHtml;
+
+    // Logik für Auswahl speichern
+    document.querySelectorAll('.itembox').forEach(itembox => {
+        const buttons = itembox.querySelectorAll('.select-button');
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Entferne die Klasse "selected" nur von den Buttons in dieser itembox
+                buttons.forEach(btn => btn.classList.remove('selected'));
+                this.classList.add('selected');
+                const selection = this.getAttribute('data-selection');
+                selectionMap.set(itembox.id, selection);
+                console.log(selectionMap);
+                if (selectionMap.size === tempFiles.length) {
+                    document.getElementById('saveButton').disabled = false;
+                }
+            });
+        });
+    });
+
 }
 
-// Auswahl für die Klamotten
+function saveFiles() {
+    console.log("saveFiles() called");
+    // TODO: Daten an DB senden
+}
 
-document.querySelectorAll('.select-button').forEach(button => {
-    button.addEventListener('click', function() {
-        // Selected von allen bis auf dem ausgewählten entfernen
-        document.querySelectorAll('.image-button').forEach(btn => btn.classList.remove('selected'));
-        this.classList.add('selected');
+// Hilfsfunktionen
 
-        const selection = this.getAttribute('data-selection');
-        // ...
-        console.log(selection)
-    });
-});
+function createItemBox(file) {
+    return `
+        <div class="itembox" id="${file.name}">
+            <button class="close-btn">
+                <img src="../.Content/Icons/x-button.png" alt="Close">
+            </button>
+            <img src="${URL.createObjectURL(file)}" alt="Clothing">
+            <div class="icon-selection">
+                <button class="select-button" data-selection="Kopfbedeckung">
+                    <img src="../.Content/Icons/Kopf.png" alt="Kopfbedeckung">
+                </button>
+                <button class="select-button" data-selection="Tops">
+                    <img src="../.Content/Icons/Körper.png" alt="Tops">
+                </button>
+                <button class="select-button" data-selection="Bottoms">
+                    <img src="../.Content/Icons/Hose.png" alt="Bottoms">
+                </button>
+                <button class="select-button" data-selection="Schuhe">
+                    <img src="../.Content/Icons/Schuh.png" alt="Schuhe">
+                </button>
+            </div>
+        </div>
+    `;
+}

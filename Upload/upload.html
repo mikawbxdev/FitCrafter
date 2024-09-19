@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../Closet%20page/closet.css">
     <link rel="stylesheet" href="upload.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <script src="index.js"></script>
+    <script src="upload.js"></script>
 </head>
 <body>
 <div class="maincontainer">
@@ -38,138 +38,37 @@
             </div>
             <div id="fileList"></div>
             <button class="submitButton" id="nextButton" onclick="showfiles();" disabled>Next</button>
-            <script src="upload.js"></script>
+            <script>initDragDrop()</script>
         </div>
     </div>
     <div class = "maincontainer" id="middlecontainer2">
+        <span class="subtitle">Please select the type of clothing for every piece.</span>
             <div class="gridContainer" id="uploadContainer2">
-                <div class="itembox">
-                    <button class="close-btn"><img src="../.Content/Icons/x-button.png"/></button>
-                    <img src="../.Content/Images/image-removebg-preview.png" alt="Clothing">
-                    <div class="icon-selection">
-                        <button class="select-button" data-selection="Kopfbedeckung">
-                            <img src="..\.Content\Icons\Kopf.png" alt="Kopfbedeckung">
-                        </button>
-                        <button class="select-button" data-selection="Tops">
-                            <img src="..\.Content\Icons\Körper.png" alt="Tops">
-                        </button>
-                        <button class="select-button" data-selection="Bottoms">
-                            <img src="..\.Content\Icons\Hose.png" alt="Bottoms">
-                        </button>
-                        <button class="select-button" data-selection="Schuhe">
-                            <img src="..\.Content\Icons\Schuh.png" alt="Schuhe">
-                        </button>
-                    </div>
-                </div>
-                <div class="itembox">
-                    <button class="close-btn"><img src="../.Content/Icons/x-button.png"/></button>
-                    <img src="../.Content/Images/image-removebg-preview (1).png" alt="Clothing">
-                    <div class="icon-selection">
-                        <button class="select-button" data-selection="Kopfbedeckung">
-                            <img src="..\.Content\Icons\Kopf.png" alt="Kopfbedeckung">
-                        </button>
-                        <button class="select-button" data-selection="Tops">
-                            <img src="..\.Content\Icons\Körper.png" alt="Tops">
-                        </button>
-                        <button class="select-button" data-selection="Bottoms">
-                            <img src="..\.Content\Icons\Hose.png" alt="Bottoms">
-                        </button>
-                        <button class="select-button" data-selection="Schuhe">
-                            <img src="..\.Content\Icons\Schuh.png" alt="Schuhe">
-                        </button>
-                    </div>
-                </div>
-                <div class="itembox">
-                    <button class="close-btn"><img src="../.Content/Icons/x-button.png"/></button>
-                    <img src="../.Content/Images/image-removebg-preview%20(2).png" alt="Clothing">
-                    <div class="icon-selection">
-                        <button class="select-button" data-selection="Kopfbedeckung">
-                            <img src="..\.Content\Icons\Kopf.png" alt="Kopfbedeckung">
-                        </button>
-                        <button class="select-button" data-selection="Tops">
-                            <img src="..\.Content\Icons\Körper.png" alt="Tops">
-                        </button>
-                        <button class="select-button" data-selection="Bottoms">
-                            <img src="..\.Content\Icons\Hose.png" alt="Bottoms">
-                        </button>
-                        <button class="select-button" data-selection="Schuhe">
-                            <img src="..\.Content\Icons\Schuh.png" alt="Schuhe">
-                        </button>
-                    </div>
-                </div>
-                <div class="itembox">
-                    <button class="close-btn"><img src="../.Content/Icons/x-button.png"/></button>
-                    <img src="../.Content/Images/image-removebg-preview (3).png" alt="Clothing">
-                    <div class="icon-selection">
-                        <button class="select-button" data-selection="Kopfbedeckung">
-                            <img src="..\.Content\Icons\Kopf.png" alt="Kopfbedeckung">
-                        </button>
-                        <button class="select-button" data-selection="Tops">
-                            <img src="..\.Content\Icons\Körper.png" alt="Tops">
-                        </button>
-                        <button class="select-button" data-selection="Bottoms">
-                            <img src="..\.Content\Icons\Hose.png" alt="Bottoms">
-                        </button>
-                        <button class="select-button" data-selection="Schuhe">
-                            <img src="..\.Content\Icons\Schuh.png" alt="Schuhe">
-                        </button>
-                    </div>
-                </div>
-                <div class="itembox">
-                    <button class="close-btn"><img src="../.Content/Icons/x-button.png"/></button>
-                    <img src="../.Content/Images/image-removebg-preview (4).png" alt="Clothing">
-                    <div class="icon-selection">
-                        <button class="select-button" data-selection="Kopfbedeckung">
-                            <img src="..\.Content\Icons\Kopf.png" alt="Kopfbedeckung">
-                        </button>
-                        <button class="select-button" data-selection="Tops">
-                            <img src="..\.Content\Icons\Körper.png" alt="Tops">
-                        </button>
-                        <button class="select-button" data-selection="Bottoms">
-                            <img src="..\.Content\Icons\Hose.png" alt="Bottoms">
-                        </button>
-                        <button class="select-button" data-selection="Schuhe">
-                            <img src="..\.Content\Icons\Schuh.png" alt="Schuhe">
-                        </button>
-                    </div>
-                </div>
-                <div class="itembox">
-                    <button class="close-btn"><img src="../.Content/Icons/x-button.png"/></button>
-                    <img src="../.Content/Images/image-removebg-preview (5).png" alt="Clothing">
-                    <div class="icon-selection">
-                        <button class="select-button" data-selection="Kopfbedeckung">
-                            <img src="..\.Content\Icons\Kopf.png" alt="Kopfbedeckung">
-                        </button>
-                        <button class="select-button" data-selection="Tops">
-                            <img src="..\.Content\Icons\Körper.png" alt="Tops">
-                        </button>
-                        <button class="select-button" data-selection="Bottoms">
-                            <img src="..\.Content\Icons\Hose.png" alt="Bottoms">
-                        </button>
-                        <button class="select-button" data-selection="Schuhe">
-                            <img src="..\.Content\Icons\Schuh.png" alt="Schuhe">
-                        </button>
-                    </div>
-                </div>
-                <div class="itembox" >
-                    <button class="close-btn"><img src="../.Content/Icons/x-button.png"/></button>
-                    <img src="../.Content/Images/image-removebg-preview (6).png" alt="Clothing">
-                    <div class="icon-selection">
-                        <button class="select-button" data-selection="Kopfbedeckung">
-                            <img src="..\.Content\Icons\Kopf.png" alt="Kopfbedeckung">
-                        </button>
-                        <button class="select-button" data-selection="Tops">
-                            <img src="..\.Content\Icons\Körper.png" alt="Tops">
-                        </button>
-                        <button class="select-button" data-selection="Bottoms">
-                            <img src="..\.Content\Icons\Hose.png" alt="Bottoms">
-                        </button>
-                        <button class="select-button" data-selection="Schuhe">
-                            <img src="..\.Content\Icons\Schuh.png" alt="Schuhe">
-                        </button>
-                    </div>
-                </div>
+<!--                <div class="itembox" id="1">-->
+<!--                    <button class="close-btn"><img src="../.Content/Icons/x-button.png"/></button>-->
+<!--                    <img src="../.Content/Images/image-removebg-preview.png" alt="Clothing">-->
+<!--                    <div class="icon-selection">-->
+<!--                        <button class="select-button" data-selection="Kopfbedeckung">-->
+<!--                            <img src="..\.Content\Icons\Kopf.png" alt="Kopfbedeckung">-->
+<!--                        </button>-->
+<!--                        <button class="select-button" data-selection="Tops">-->
+<!--                            <img src="..\.Content\Icons\Körper.png" alt="Tops">-->
+<!--                        </button>-->
+<!--                        <button class="select-button" data-selection="Bottoms">-->
+<!--                            <img src="..\.Content\Icons\Hose.png" alt="Bottoms">-->
+<!--                        </button>-->
+<!--                        <button class="select-button" data-selection="Schuhe">-->
+<!--                            <img src="..\.Content\Icons\Schuh.png" alt="Schuhe">-->
+<!--                        </button>-->
+
+<!--                    </div>-->
+<!--                </div>-->
             </div>
+            <span class="buttonContainer">
+                <button class="submitButton" id="saveButton" onclick="saveFiles();" disabled title="Please select the clothing types first.">Save</button>
+            </span>
+        <script>
+        </script>
     </div>
     <div class = "sidebar" id="rightbar">
         <button class="image-button" onclick="location.href='../Homepage/home.html'">

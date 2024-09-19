@@ -27,6 +27,10 @@
 
 /*Upload Area 1*/
 
+#nextButton:disabled {
+    display: none;
+}
+
 .upload-box {
     width: 90%;
     height: 45%;
@@ -61,7 +65,7 @@
     font-family: inherit;
     font-weight: 1000;
     color: var(--fontcolor);
-    background-color: transparent;
+    background-color: var(--offwhite);
     padding: 0.6em 2em;
     border-radius: 50em;
     border: 6px solid black;
@@ -74,18 +78,44 @@
     border: 6px solid black;
     box-shadow: 0px 0px;
 }
+.submitButton:disabled {
+    color: #b7b7b7;
+    border: 6px solid #b7b7b7;
+    box-shadow: 0px 8px #b7b7b7;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
 
 /*Upload Area 2*/
+
+#middlecontainer2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+#uploadContainer2 {
+    max-height: 83%;
+    padding: 3%;
+}
+/*#middlecontainer2 {*/
+/*    border: 1px solid black;*/
+/*}*/
+.subtitle {
+    margin-bottom: 3%;
+}
 
 .itembox {
     width: auto;
     height: auto;
     aspect-ratio: 1 / 1;
     border-radius: 13px;
-    display: block;
+    display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     text-align: center;
     padding: 0.5rem;
     position: relative;
@@ -106,17 +136,14 @@
     overflow: hidden;
 }
 
-#nextButton:disabled {
-    display: none;
-}
-
 .icon-selection {
     /*border: 1px solid black;*/
-    width: 100%;
+    position: absolute;
+    bottom: 4%;
+    max-width: 90%;
     display: flex;
     justify-content: space-between;
 }
-
 .select-button {
     background-color: var(--offwhite);
     cursor: pointer;
@@ -125,28 +152,31 @@
     border-radius: 13px;
     padding: 7px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.15s;
     border: none;
+    box-sizing: border-box;
 }
-
 .select-button.selected {
-    border: 2px solid orange;
+    outline: 2px solid orange;
+}
+.select-button:hover {
+    outline: 2px solid #b7b7b7;
+}
+.select-button.selected:hover {
+    outline: 2px solid orange; /* Bevorzugt die selected-Farbe */
 }
 
-
-
-
-
-
-
+.buttonContainer {
+    position: absolute;
+    bottom: 0;
+}
 
 /*Hier ein/ausschalten*/
 
-#middlecontainer {
-    display: none; /*ACHTUNG (flex)*/
-}
-
-/*#middlecontainer2 {*/
+/*#middlecontainer {*/
 /*    display: none; !*ACHTUNG (flex)*!*/
 /*}*/
+
+#middlecontainer2 {
+    display: none; /*ACHTUNG (flex)*/
+}
 

@@ -24,7 +24,25 @@ html, body {
 
 * {
     box-sizing: border-box;
+
 }
+/*Scrollbar*/
+/* Firefox */
+* {
+    scrollbar-width: auto;
+    scrollbar-color: #b7b7b7 transparent;
+}
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 14px;
+    border: 3px groove #b7b7b7;
+}
+
 .maincontainer {
     width: 75%;
     height: 100%;
