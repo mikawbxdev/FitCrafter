@@ -96,10 +96,11 @@ function saveFiles() {
 // Hilfsfunktionen
 
 function createItemBox(file) {
+    const id = CSS.escape(file.name);
     return `
-        <div class="itembox" id="${file.name}">
-            <button class="close-btn">
-                <img src="../.Content/Icons/x-button.png" alt="Close">
+        <div class="itembox" id="${id}">
+            <button class="close-btn" onclick="deleteButton(\'${id}\')">
+                <img src="../.Content/Icons/x-button.png" alt="Delete">
             </button>
             <img src="${URL.createObjectURL(file)}" alt="Clothing">
             <div class="icon-selection">
@@ -118,4 +119,26 @@ function createItemBox(file) {
             </div>
         </div>
     `;
+}
+function deleteButton(id) {
+    const itembox = document.getElementById(id);
+    if (!itembox) {
+        console.warn(`Element mit ID ${id} wurde nicht gefunden.`);
+        return;
+    }
+    itembox.remove();
+
+    if (selectionMap.has(id)) {
+        selectionMap.delete(id);
+    } else {
+        console.warn(`ID ${id} war nicht in der selectionMap.`);
+    }
+
+    const initialLength = tempFiles.length;
+    tempFiles = tempFiles.filter(file => id = CSS.escape(file.name) !== id);
+    if (tempFiles.length === initialLength) {
+        console.warn(`Datei mit dem Namen ${id} wurde nicht in tempFiles gefunden.`);
+    }
+
+    console.log(`Element mit ID ${id} erfolgreich gelöscht.`);
 }
