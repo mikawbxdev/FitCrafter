@@ -1,6 +1,9 @@
 // Globale Variablen
 
+
+const apiKeys = ["Y5giVpqK82LETwzZ86jQJxQ3"]
 let tempFiles = [];
+let tempFiles2 = [];
 let selectionMap = new Map();
 
 function initDragDrop(){
@@ -49,17 +52,21 @@ function handleFiles(files) {
     }
     fileList.appendChild(fileItem);
     document.getElementById('nextButton').disabled = false;
-    tempFiles = files;
+    tempFiles = Array.from(files).map(file => {
+        const hash = getHashCode(file.name);
+        const extension = file.name.split('.').pop(); // Hol die Dateierweiterung
+        return new File([file], `${hash}.${extension}`, { type: file.type });
+    });
 }
 
 // Next Button
 function showfiles() {
+    removeBG();
     const middlecontainer = document.getElementById('middlecontainer');
     const middlecontainer2 = document.getElementById('middlecontainer2');
     const uploadContainer2 = document.getElementById('uploadContainer2');
     // let selectionMap = new Map();
     let itemBoxesHtml = '';
-
     middlecontainer.style.display = 'none';
     middlecontainer2.style.display = 'flex';
 
@@ -79,13 +86,12 @@ function showfiles() {
                 const selection = this.getAttribute('data-selection');
                 selectionMap.set(itembox.id, selection);
                 console.log(selectionMap);
-                if (selectionMap.size === tempFiles.length) {
+                if (selectionMap.size === tempFiles.length && tempFiles.length === tempFiles2.length) {
                     document.getElementById('saveButton').disabled = false;
                 }
             });
         });
     });
-
 }
 
 function saveFiles() {
@@ -96,13 +102,12 @@ function saveFiles() {
 // Hilfsfunktionen
 
 function createItemBox(file) {
-    const id = CSS.escape(file.name);
     return `
-        <div class="itembox" id="${id}">
-            <button class="close-btn" onclick="deleteButton(\'${id}\')">
+        <div class="itembox" id="${file.name}">
+            <button class="close-btn" onclick="deleteButton(\'${file.name}\')">
                 <img src="../.Content/Icons/x-button.png" alt="Delete">
             </button>
-            <img src="${URL.createObjectURL(file)}" alt="Clothing">
+            <img id='img' src="${URL.createObjectURL(file)}" alt="Clothing">
             <div class="icon-selection">
                 <button class="select-button" data-selection="Kopfbedeckung">
                     <img src="../.Content/Icons/Kopf.png" alt="Kopfbedeckung">
@@ -121,6 +126,7 @@ function createItemBox(file) {
     `;
 }
 function deleteButton(id) {
+    console.log(tempFiles);
     const itembox = document.getElementById(id);
     if (!itembox) {
         console.warn(`Element mit ID ${id} wurde nicht gefunden.`);
@@ -135,10 +141,63 @@ function deleteButton(id) {
     }
 
     const initialLength = tempFiles.length;
-    tempFiles = tempFiles.filter(file => id = CSS.escape(file.name) !== id);
+    let idx = tempFiles.indexOf(id);
+    tempFiles.splice(idx, 1);
+    tempFiles = tempFiles.filter(file => file !== tempFiles[idx]);
     if (tempFiles.length === initialLength) {
         console.warn(`Datei mit dem Namen ${id} wurde nicht in tempFiles gefunden.`);
     }
-
     console.log(`Element mit ID ${id} erfolgreich gelöscht.`);
+    if (tempFiles.length === 0) {
+        window.history.back();
+    }
+}
+
+function getHashCode(str) {
+    let hash = 0;
+    if (str.length === 0) return hash;
+    for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = (hash << 5) - hash + char;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return '_' + hash;
+}
+
+async function removeBG() {
+    const formData = new FormData();
+    const results = [];
+
+    for (const file of tempFiles) {
+        formData.append("size", "auto");
+        formData.append("image_file", file);
+
+        try {
+            const response = await fetch("https://api.remove.bg/v1.0/removebg", {
+                method: "POST",
+                headers: {
+                    "X-Api-Key": apiKeys[0],
+                },
+                body: formData,
+            });
+            console.log("Request sent");
+            console.log(response.body);
+            if (response.ok) {
+                const blob = await response.blob();
+                const imageUrl = URL.createObjectURL(blob);
+                tempFiles2.push(new File([blob], file.name, { type: blob.type }));
+                document.getElementById(file.name).querySelector('#img').src = imageUrl;
+                results.push(imageUrl);
+            } else {
+                const errorText = await response.text();
+                throw new Error(`${response.status}: ${response.statusText} : ${response.body} : ${errorText}`);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+    // Falls Auswahl schon vor Beenden dieser Funktion getroffen wurde
+    if (selectionMap.size === tempFiles.length && tempFiles.length === tempFiles2.length) {
+        document.getElementById('saveButton').disabled = false;
+    }
 }

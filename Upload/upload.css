@@ -8,8 +8,8 @@
 }
 
 .uploadContainer {
-    width: 60%;
-    height: max(20rem, 60%);
+    width: 80%;
+    height: max(30rem, 60%);
     border-radius: 13px;
     align-items: center;
     justify-content: center;
@@ -32,9 +32,9 @@
 }
 
 .upload-box {
-    width: 90%;
+    width: 60%;
     height: 45%;
-    max-width: 400px;
+    max-width: 460px;
     min-height: 220px;
     border: 2px dashed #ccc;
     display: flex;
