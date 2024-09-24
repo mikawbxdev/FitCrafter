@@ -1,7 +1,7 @@
 // Globale Variablen
 
 
-const apiKeys = ["Y5giVpqK82LETwzZ86jQJxQ3"]
+const apiKeys = ["Y5giVpqK82LETwzZ86jQJxQ3", "DhZEkW9QfcFQnGR1ujeAtchZ", "E4betQAzJP4mx9xK7nZ9Yi93"] // E4betQAzJP4mx9xK7nZ9Yi93 mit meinem google acc
 let tempFiles = [];
 let tempFiles2 = [];
 let selectionMap = new Map();
@@ -37,7 +37,7 @@ function initDragDrop(){
     });
 }
 
-// Dateien verarbeiten und zur Liste hinzufügen
+// Files umbennen und next button sichtbar machen
 function handleFiles(files) {
     const fileList = document.getElementById('fileList');
 
@@ -59,7 +59,7 @@ function handleFiles(files) {
     });
 }
 
-// Next Button
+// Next Button Funktion
 function showfiles() {
     removeBG();
     const middlecontainer = document.getElementById('middlecontainer');
@@ -92,6 +92,47 @@ function showfiles() {
             });
         });
     });
+}
+
+
+async function removeBG() {
+    const formData = new FormData();
+    const results = [];
+    let croppedFile;
+
+    for (const file of tempFiles) {
+        formData.append("size", "auto");
+        formData.append("crop", "true");
+        formData.append("image_file", file);
+
+        try {
+            const response = await fetch("https://api.remove.bg/v1.0/removebg", {
+                method: "POST",
+                headers: {
+                    "X-Api-Key": apiKeys[0],
+                },
+                body: formData,
+            });
+            console.log("Request sent");
+            console.log(response.body);
+            if (response.ok) {
+                const blob = await response.blob();
+                const imageUrl = URL.createObjectURL(blob);
+                tempFiles2.push(new File([blob], file.name, {type: blob.type}));
+                document.getElementById(file.name).querySelector('#img').src = imageUrl;
+                results.push(imageUrl);
+            } else {
+                const errorText = await response.text();
+                throw new Error(`${response.status}: ${response.statusText} : ${response.body} : ${errorText}`);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+    // Falls Auswahl schon vor Beenden dieser Funktion getroffen wurde
+    if (selectionMap.size === tempFiles.length && tempFiles.length === tempFiles2.length) {
+        document.getElementById('saveButton').disabled = false;
+    }
 }
 
 function saveFiles() {
@@ -162,42 +203,4 @@ function getHashCode(str) {
         hash |= 0; // Convert to 32bit integer
     }
     return '_' + hash;
-}
-
-async function removeBG() {
-    const formData = new FormData();
-    const results = [];
-
-    for (const file of tempFiles) {
-        formData.append("size", "auto");
-        formData.append("image_file", file);
-
-        try {
-            const response = await fetch("https://api.remove.bg/v1.0/removebg", {
-                method: "POST",
-                headers: {
-                    "X-Api-Key": apiKeys[0],
-                },
-                body: formData,
-            });
-            console.log("Request sent");
-            console.log(response.body);
-            if (response.ok) {
-                const blob = await response.blob();
-                const imageUrl = URL.createObjectURL(blob);
-                tempFiles2.push(new File([blob], file.name, { type: blob.type }));
-                document.getElementById(file.name).querySelector('#img').src = imageUrl;
-                results.push(imageUrl);
-            } else {
-                const errorText = await response.text();
-                throw new Error(`${response.status}: ${response.statusText} : ${response.body} : ${errorText}`);
-            }
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    }
-    // Falls Auswahl schon vor Beenden dieser Funktion getroffen wurde
-    if (selectionMap.size === tempFiles.length && tempFiles.length === tempFiles2.length) {
-        document.getElementById('saveButton').disabled = false;
-    }
 }
