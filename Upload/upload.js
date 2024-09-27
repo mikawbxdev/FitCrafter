@@ -184,7 +184,8 @@ function deleteButton(id) {
     const initialLength = tempFiles.length;
     let idx = tempFiles.indexOf(id);
     tempFiles.splice(idx, 1);
-    tempFiles = tempFiles.filter(file => file !== tempFiles[idx]);
+    let idx2 = tempFiles.indexOf(id);
+    tempFiles2.splice(idx, 1);
     if (tempFiles.length === initialLength) {
         console.warn(`Datei mit dem Namen ${id} wurde nicht in tempFiles gefunden.`);
     }

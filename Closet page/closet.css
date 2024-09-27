@@ -39,8 +39,8 @@
 }
 
 .itembox img {
-    max-height: 87%;
-    max-width: 87%;
+    height: 80%;
+    width: 80%;
     object-fit: contain;
     overflow: hidden;
 }
@@ -66,6 +66,7 @@
 }
 .itemtext {
     position: absolute; /* Absolut positioniert */
+    padding: 2%;
     bottom: 0.5rem; /* Am unteren Rand der Box */
     left: 0.5rem;
     right: 0.5rem;
