@@ -1,5 +1,13 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    setPersistence,
+    browserLocalPersistence,
+    browserSessionPersistence,
+    updateProfile
+} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
 // Deine Firebase-Konfiguration
 const firebaseConfig = {
@@ -49,10 +57,17 @@ function registerUser() {
 
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            showAlert('User registered successfully with email: ' + userCredential.user.email, 'success'); // Erfolgs-Alert in grün
+            const user = userCredential.user;
+
+            // Benutzerprofil mit Namen aktualisieren
+            return updateProfile(user, { displayName: name });
+        })
+        .then(() => {
+            showAlert('User registered successfully with email: ' + email + ' and name: ' + name, 'success'); // Erfolgsmeldung mit Name
+            showProfile(name, email);
         })
         .catch((error) => {
-            showAlert('Error: ' + error.message, 'error'); // Fehler-Alert in rot
+            showAlert('Error: ' + error.message, 'error'); // Fehler beim Registrieren oder Aktualisieren
         });
 }
 
@@ -67,13 +82,13 @@ function loginUser() {
 
     // Validierungen für das E-Mail-Feld
     if (!email) {
-        showError('emailError', 'Bitte geben Sie eine gültige E-Mail-Adresse ein.');
+        showAlert('Bitte geben Sie eine gültige E-Mail-Adresse ein.', 'error');
         hasError = true;
     }
 
     // Validierungen für das Passwort-Feld
     if (password.length < 6) {
-        showError('passwordError', 'Das Passwort muss mindestens 6 Zeichen lang sein.');
+        showAlert( 'Das Passwort muss mindestens 6 Zeichen lang sein.', 'error');
         hasError = true;
     }
 
@@ -95,7 +110,7 @@ function loginUser() {
             }, 500); // Zeit in Millisekunden (0.5 Sekunden)
         })
         .catch((error) => {
-            showError('emailError', error.message); // Zeige Fehler unter dem E-Mail-Feld an
+            showAlert(error.message, 'error'); // Zeige Fehler unter dem E-Mail-Feld an
         });
 }
 
@@ -186,14 +201,29 @@ function showAlert(message, type = 'success') {
     }, 5000);
 }
 
-auth.onAuthStateChanged((user) => {
-    if (user) {
-        // Der Benutzer ist eingeloggt
-        sessionStorage.setItem('userLoggedIn', 'true');
-        console.log('User is logged in:', user.email);
-    } else {
-        // Der Benutzer ist nicht eingeloggt
-        sessionStorage.setItem('userLoggedIn', 'false');
-        console.log('User is not logged in');
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            // Der Benutzer ist eingeloggt
+            sessionStorage.setItem('userLoggedIn', 'true');
+            console.log('User is logged in:', user.email);
+            var accountBox = document.getElementById('accountBox');
+            accountBox.style.display = 'none';
+            showProfile(user.displayName, user.email)
+        } else {
+            // Der Benutzer ist nicht eingeloggt
+            sessionStorage.setItem('userLoggedIn', 'false');
+            console.log('User is not logged in');
+        }
+    });
 });
+
+function showProfile(name, email) {
+    const accountBox2 = document.getElementById('accountBox2');
+    accountBox2.style.display = 'flex';
+    accountBox2.innerHTML = `
+        <h2>Profile</h2>
+        <p>Name: ${name}</p>
+        <p>Email: ${email}</p>
+    `;
+}
