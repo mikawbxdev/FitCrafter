@@ -1,5 +1,29 @@
-// Globale Variablen
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+import {
+    getStorage,
+    ref,
+    uploadBytes,
+    listAll,
+    getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
 
+// Deine Firebase-Konfiguration
+const firebaseConfig = {
+    apiKey: "AIzaSyC_t4799qenZNVtznHqbObyyWYzZCX_9G8",
+    authDomain: "fitcrafter-e6ed3.firebaseapp.com",
+    projectId: "fitcrafter-e6ed3",
+    storageBucket: "fitcrafter-e6ed3.appspot.com",
+    messagingSenderId: "408380243205",
+    appId: "1:408380243205:web:73edefc089384e22314b6c",
+    measurementId: "G-TTQRMVMG2B"
+};
+
+// Initialisiere Firebase
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
+
+
+// Globale Variablen
 
 const apiKeys = ["Y5giVpqK82LETwzZ86jQJxQ3", "DhZEkW9QfcFQnGR1ujeAtchZ", "E4betQAzJP4mx9xK7nZ9Yi93"] // E4betQAzJP4mx9xK7nZ9Yi93 mit meinem google acc
 let tempFiles = [];
@@ -204,4 +228,39 @@ function getHashCode(str) {
         hash |= 0; // Convert to 32bit integer
     }
     return '_' + hash;
+}
+
+// Firebase
+function uploadFile(file) {
+    const storageRef = ref(storage, 'files/' + file.name); // Pfad in Firebase Storage
+    uploadBytes(storageRef, file)
+        .then((snapshot) => {
+            console.log('Uploaded a blob or file!', snapshot);
+            showAlert('File uploaded successfully!', 'success');
+        })
+        .catch((error) => {
+            console.error('Error uploading file:', error);
+            showAlert('Error uploading file: ' + error.message, 'error');
+        });
+}
+
+function listFiles() {
+    const storageRef = ref(storage, 'files/'); // Pfad zu den Dateien in Firebase Storage
+    listAll(storageRef)
+        .then((result) => {
+            result.items.forEach((itemRef) => {
+                // Hier kannst du die Datei-URLs abrufen
+                getDownloadURL(itemRef)
+                    .then((url) => {
+                        console.log('File URL:', url);
+                        // Hier kannst du die URL weiterverarbeiten, z.B. in der Benutzeroberfläche anzeigen
+                    })
+                    .catch((error) => {
+                        console.error('Error getting file URL:', error);
+                    });
+            });
+        })
+        .catch((error) => {
+            console.error('Error listing files:', error);
+        });
 }
