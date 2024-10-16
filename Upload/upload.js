@@ -1,4 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+// Importiere die auth und storage Konfiguration aus der fire.js-Datei
+import { auth, storage } from '../Firebase/fire.js';
 import {
     getStorage,
     ref,
@@ -7,59 +9,62 @@ import {
     getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
 
-// Deine Firebase-Konfiguration
-const firebaseConfig = {
-    apiKey: "AIzaSyC_t4799qenZNVtznHqbObyyWYzZCX_9G8",
-    authDomain: "fitcrafter-e6ed3.firebaseapp.com",
-    projectId: "fitcrafter-e6ed3",
-    storageBucket: "fitcrafter-e6ed3.appspot.com",
-    messagingSenderId: "408380243205",
-    appId: "1:408380243205:web:73edefc089384e22314b6c",
-    measurementId: "G-TTQRMVMG2B"
-};
-
-// Initialisiere Firebase
-const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
-
+console.log('upload.js wurde geladen');
 
 // Globale Variablen
 
-const apiKeys = ["Y5giVpqK82LETwzZ86jQJxQ3", "DhZEkW9QfcFQnGR1ujeAtchZ", "E4betQAzJP4mx9xK7nZ9Yi93"] // E4betQAzJP4mx9xK7nZ9Yi93 mit meinem google acc
+const apiKeys = ["Y5giVpqK82LETwzZ86jQJxQ3", "DhZEkW9QfcFQnGR1ujeAtchZ", "E4betQAzJP4mx9xK7nZ9Yi93", "fvsX9KAtHVdHjPzsyDWDXaLM"] // E4betQAzJP4mx9xK7nZ9Yi93 mit meinem google acc
 let tempFiles = [];
 let tempFiles2 = [];
 let selectionMap = new Map();
 
-function initDragDrop(){
-    const uploadBox = document.getElementById('uploadBox');
-    const fileInput = document.getElementById('fileInput');
-    const fileList = document.getElementById('fileList');
-    // Click to upload
-    uploadBox.addEventListener('click', () => {
-        fileInput.click();
+window.onload = function() {
+    // Funktion zum Initialisieren von Drag & Drop
+    initDragDrop();
+};
+
+function initDragDrop() {
+    const dropArea = document.getElementById('uploadBox');
+
+    dropArea.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        dropArea.classList.add('highlight');
     });
 
-// Wenn der Nutzer eine Datei auswählt
-    fileInput.addEventListener('change', (e) => {
-        handleFiles(e.target.files);
+    dropArea.addEventListener('dragleave', () => {
+        dropArea.classList.remove('highlight');
     });
 
-// Drag & Drop
-    uploadBox.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadBox.classList.add('drag-over');
-    });
-
-    uploadBox.addEventListener('dragleave', () => {
-        uploadBox.classList.remove('drag-over');
-    });
-
-    uploadBox.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadBox.classList.remove('drag-over');
-        handleFiles(e.dataTransfer.files);
+    dropArea.addEventListener('drop', (event) => {
+        event.preventDefault();
+        dropArea.classList.remove('highlight');
+        const files = event.dataTransfer.files;
+        handleFiles(files); // Ruft die Funktion auf, um die Dateien zu verarbeiten
     });
 }
+
+
+// Wenn der Nutzer eine Datei auswählt
+fileInput.addEventListener('change', (e) => {
+    handleFiles(e.target.files);
+});
+
+// Drag & Drop für uploadBox
+uploadBox.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadBox.classList.add('drag-over');
+});
+
+uploadBox.addEventListener('dragleave', () => {
+    uploadBox.classList.remove('drag-over');
+});
+
+uploadBox.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadBox.classList.remove('drag-over');
+    handleFiles(e.dataTransfer.files);
+}); // <- Dies schließt den Block korrekt
+
 
 // Files umbennen und next button sichtbar machen
 function handleFiles(files) {
@@ -82,9 +87,10 @@ function handleFiles(files) {
         return new File([file], `${hash}.${extension}`, { type: file.type });
     });
 }
-
+console.log("davor");
 // Next Button Funktion
-function showfiles() {
+function showFiles() {
+    console.log("showFiles wurde aufgerufen");
     removeBG();
     const middlecontainer = document.getElementById('middlecontainer');
     const middlecontainer2 = document.getElementById('middlecontainer2');
@@ -117,7 +123,7 @@ function showfiles() {
         });
     });
 }
-
+console.log("danach");
 
 async function removeBG() {
     const formData = new FormData();
@@ -133,7 +139,7 @@ async function removeBG() {
             const response = await fetch("https://api.remove.bg/v1.0/removebg", {
                 method: "POST",
                 headers: {
-                    "X-Api-Key": apiKeys[0],
+                    "X-Api-Key": apiKeys[2],
                 },
                 body: formData,
             });
@@ -160,9 +166,15 @@ async function removeBG() {
 }
 
 function saveFiles() {
-    console.log("saveFiles() called");
-    // TODO: Daten an DB senden
+    console.log("saveFiles() wurde aufgerufen");
+
+    tempFiles2.forEach((file) => {
+        uploadFile(file); // Jede Datei zu Firebase hochladen
+    });
+
+    showAlert("Alle Dateien wurden erfolgreich hochgeladen!", "success");
 }
+
 
 // Hilfsfunktionen
 
@@ -232,17 +244,36 @@ function getHashCode(str) {
 
 // Firebase
 function uploadFile(file) {
-    const storageRef = ref(storage, 'files/' + file.name); // Pfad in Firebase Storage
-    uploadBytes(storageRef, file)
-        .then((snapshot) => {
-            console.log('Uploaded a blob or file!', snapshot);
-            showAlert('File uploaded successfully!', 'success');
-        })
-        .catch((error) => {
-            console.error('Error uploading file:', error);
-            showAlert('Error uploading file: ' + error.message, 'error');
-        });
+    // Überprüfe, ob der Benutzer eingeloggt ist und hole die Benutzer-ID
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            const userId = user.uid; // Hole die Benutzer-ID
+            const storageRef = ref(storage, `users/${userId}/images/${file.name}`); // Pfad in Firebase Storage für jeden Benutzer
+            uploadBytes(storageRef, file)
+                .then((snapshot) => {
+                    console.log('Datei erfolgreich hochgeladen!', snapshot);
+                    showAlert('Datei erfolgreich hochgeladen!', 'success');
+
+                    // URL der hochgeladenen Datei abrufen
+                    getDownloadURL(storageRef).then((url) => {
+                        console.log('Bild-URL:', url);
+                        showAlert(`Bild erfolgreich hochgeladen! URL: ${url}`, 'success');
+                    }).catch((error) => {
+                        console.error('Fehler beim Abrufen der URL:', error);
+                        showAlert('Fehler beim Abrufen der URL: ' + error.message, 'error');
+                    });
+                })
+                .catch((error) => {
+                    console.error('Fehler beim Hochladen der Datei:', error);
+                    showAlert('Fehler beim Hochladen der Datei: ' + error.message, 'error');
+                });
+        } else {
+            showAlert('Bitte einloggen, um Dateien hochzuladen.', 'error');
+        }
+    });
 }
+
+
 
 function listFiles() {
     const storageRef = ref(storage, 'files/'); // Pfad zu den Dateien in Firebase Storage
@@ -264,3 +295,7 @@ function listFiles() {
             console.error('Error listing files:', error);
         });
 }
+window.showFiles = showFiles;
+console.log("showFiles ist Global")
+
+
