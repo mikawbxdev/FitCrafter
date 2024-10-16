@@ -142,6 +142,7 @@ input::placeholder {
     height: 100%;
     width: 100%;
     box-sizing: border-box;
+
 }
 
 .homePageClothing {
@@ -150,6 +151,7 @@ input::placeholder {
     align-items: center;
     height: 80%;
     width: 30%;
+    min-width: 300px;
 }
 
 .fitPart {
@@ -175,19 +177,18 @@ input::placeholder {
 }
 
 #bottom-container {
-    flex: 1.6;
-    width: 65%;
+    flex: 2;
+    width: 80%;
     display: flex;
     align-items: flex-start;
-    max-height: 15em;
-    margin-top: -0.35em;
+    margin-top: -0.4em;
 
 }
 
 #shoes-container {
-    flex: 0.6;
+    flex: 0.66;
     max-height: 10em;
-    margin-top: -0.35em;
+    margin-top: -0.5em;
 
 }
 
