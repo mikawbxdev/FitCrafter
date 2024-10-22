@@ -1,4 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 // Importiere die auth und storage Konfiguration aus der fire.js-Datei
 import { auth, storage } from '../Firebase/fire.js';
 import {
@@ -23,48 +23,35 @@ window.onload = function() {
     initDragDrop();
 };
 
-function initDragDrop() {
-    const dropArea = document.getElementById('uploadBox');
-
-    dropArea.addEventListener('dragover', (event) => {
-        event.preventDefault();
-        dropArea.classList.add('highlight');
+function initDragDrop(){
+    const uploadBox = document.getElementById('uploadBox');
+    const fileInput = document.getElementById('fileInput');
+    // Click to upload
+    uploadBox.addEventListener('click', () => {
+        fileInput.click();
     });
-
-    dropArea.addEventListener('dragleave', () => {
-        dropArea.classList.remove('highlight');
-    });
-
-    dropArea.addEventListener('drop', (event) => {
-        event.preventDefault();
-        dropArea.classList.remove('highlight');
-        const files = event.dataTransfer.files;
-        handleFiles(files); // Ruft die Funktion auf, um die Dateien zu verarbeiten
-    });
-}
-
 
 // Wenn der Nutzer eine Datei auswählt
-fileInput.addEventListener('change', (e) => {
-    handleFiles(e.target.files);
-});
+    fileInput.addEventListener('change', (e) => {
+        handleFiles(e.target.files);
+    });
 
-// Drag & Drop für uploadBox
-uploadBox.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    uploadBox.classList.add('drag-over');
-});
+// Drag & Drop
+    uploadBox.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadBox.classList.add('drag-over');
+    });
 
-uploadBox.addEventListener('dragleave', () => {
-    uploadBox.classList.remove('drag-over');
-});
+    uploadBox.addEventListener('dragleave', () => {
+        uploadBox.classList.remove('drag-over');
+    });
 
-uploadBox.addEventListener('drop', (e) => {
-    e.preventDefault();
-    uploadBox.classList.remove('drag-over');
-    handleFiles(e.dataTransfer.files);
-}); // <- Dies schließt den Block korrekt
-
+    uploadBox.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadBox.classList.remove('drag-over');
+        handleFiles(e.dataTransfer.files);
+    });
+}
 
 // Files umbennen und next button sichtbar machen
 function handleFiles(files) {
@@ -72,6 +59,12 @@ function handleFiles(files) {
 
     fileList.innerHTML = ''; // Leere die Liste vor jeder neuen Auswahl
     const fileItem = document.createElement('p');
+    // files.forEach(file => {
+    //     if (file.type.split('/')[0] !== 'image') {
+    //         showAlert('1 File removed: Only image files are allowed!', 'error');
+    //     }
+    // });
+
     if (files.length > 1) {
         fileItem.textContent = files.length + ' Files uploaded.'
     } else if (files.length === 1) {
@@ -87,10 +80,8 @@ function handleFiles(files) {
         return new File([file], `${hash}.${extension}`, { type: file.type });
     });
 }
-console.log("davor");
 // Next Button Funktion
 function showFiles() {
-    console.log("showFiles wurde aufgerufen");
     removeBG();
     const middlecontainer = document.getElementById('middlecontainer');
     const middlecontainer2 = document.getElementById('middlecontainer2');
@@ -123,12 +114,9 @@ function showFiles() {
         });
     });
 }
-console.log("danach");
-
 async function removeBG() {
     const formData = new FormData();
     const results = [];
-    let croppedFile;
 
     for (const file of tempFiles) {
         formData.append("size", "auto");
@@ -143,8 +131,6 @@ async function removeBG() {
                 },
                 body: formData,
             });
-            console.log("Request sent");
-            console.log(response.body);
             if (response.ok) {
                 const blob = await response.blob();
                 const imageUrl = URL.createObjectURL(blob);
@@ -166,13 +152,19 @@ async function removeBG() {
 }
 
 function saveFiles() {
-    console.log("saveFiles() wurde aufgerufen");
-
-    tempFiles2.forEach((file) => {
-        uploadFile(file); // Jede Datei zu Firebase hochladen
+    var success = true;
+    tempFiles2.forEach((file) => { // Jede Datei zu Firebase hochladen
+        if (!uploadFile(file)) {
+            success = false;
+        }
     });
-
-    showAlert("Alle Dateien wurden erfolgreich hochgeladen!", "success");
+    console.log(success);
+    if (success) {
+        showAlert("Your clothes were successfully uploaded!", "success");
+        setTimeout(() => {
+            window.location.href = '../Closet page/closet.html';
+        }, 2000);
+    }
 }
 
 
@@ -248,32 +240,45 @@ function uploadFile(file) {
     onAuthStateChanged(auth, (user) => {
         if (user) {
             const userId = user.uid; // Hole die Benutzer-ID
-            const storageRef = ref(storage, `users/${userId}/images/${file.name}`); // Pfad in Firebase Storage für jeden Benutzer
+            var storageRef;
+            switch (selectionMap.get(file.name)) {
+                case 'Kopfbedeckung':
+                    storageRef = ref(storage, `users/${userId}/images/Kopfbedeckung/${selectionMap.get(file.name)}_${file.name}`);
+                    break
+                case 'Tops':
+                    storageRef = ref(storage, `users/${userId}/images/Tops/${selectionMap.get(file.name)}_${file.name}`);
+                    break
+                case 'Bottoms':
+                    storageRef = ref(storage, `users/${userId}/images/Bottoms/${selectionMap.get(file.name)}_${file.name}`);
+                    break
+                case 'Schuhe':
+                    storageRef = ref(storage, `users/${userId}/images/Schuhe/${selectionMap.get(file.name)}_${file.name}`);
+                    break
+            }
             uploadBytes(storageRef, file)
                 .then((snapshot) => {
                     console.log('Datei erfolgreich hochgeladen!', snapshot);
-                    showAlert('Datei erfolgreich hochgeladen!', 'success');
-
                     // URL der hochgeladenen Datei abrufen
                     getDownloadURL(storageRef).then((url) => {
                         console.log('Bild-URL:', url);
-                        showAlert(`Bild erfolgreich hochgeladen! URL: ${url}`, 'success');
                     }).catch((error) => {
                         console.error('Fehler beim Abrufen der URL:', error);
-                        showAlert('Fehler beim Abrufen der URL: ' + error.message, 'error');
+                        showAlert('Error getting image URL: ' + error.message, 'error');
+                        return false
                     });
                 })
                 .catch((error) => {
                     console.error('Fehler beim Hochladen der Datei:', error);
-                    showAlert('Fehler beim Hochladen der Datei: ' + error.message, 'error');
+                    showAlert('Error uploading file: ' + error.message, 'error');
+                    return false
                 });
         } else {
-            showAlert('Bitte einloggen, um Dateien hochzuladen.', 'error');
+            showAlert('Please login first to upload clothes.', 'error');
+            return false;
         }
     });
+    return true;
 }
-
-
 
 function listFiles() {
     const storageRef = ref(storage, 'files/'); // Pfad zu den Dateien in Firebase Storage
@@ -295,7 +300,42 @@ function listFiles() {
             console.error('Error listing files:', error);
         });
 }
+
+function showAlert(message, type = 'success') {
+    // Erstelle ein div-Element für den Alert
+    const alertDiv = document.createElement('div');
+    alertDiv.classList.add('alert'); // Allgemeine Klasse für alle Alerts
+    alertDiv.classList.add(type); // Klasse für den spezifischen Typ (success, error)
+
+    // HTML-Struktur für den Alert erstellen
+    alertDiv.innerHTML = `
+        <div class="alert__icon">
+            <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zm4.768 9.14c.088-.1.155-.217.197-.344.042-.127.058-.26.048-.393-.01-.133-.048-.262-.109-.38-.061-.118-.146-.223-.248-.309-.102-.085-.221-.149-.348-.188s-.262-.052-.394-.038c-.133.014-.261.054-.378.118-.117.064-.22.151-.303.255l-4.3 5.159-2.225-2.226c-.189-.182-.441-.283-.703-.281s-.513.108-.699.293-.291.436-.293.699c-.002.262.099.515.281.703l3 3c.098.098.216.175.345.225.13.05.268.073.407.067.139-.006.275-.041.399-.103.124-.062.235-.149.324-.255z" />
+            </svg>
+        </div>
+        <div class="alert__title">${message}</div>
+        <div class="alert__close" onclick="this.parentElement.remove()">
+            <svg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15.833 5.342l-1.175-1.175L10 9.158 5.342 4.167 4.167 5.342 9.158 10l-4.99 4.99 1.175 1.175 4.99-4.99 4.99 4.99 1.175-1.175L10.842 10z" />
+            </svg>
+        </div>
+    `;
+
+    // Alert zum Container hinzufügen
+    const alertContainer = document.getElementById('alert-container');
+    alertContainer.appendChild(alertDiv);
+
+    // Alert nach 5 Sekunden automatisch entfernen
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
+}
+
+
 window.showFiles = showFiles;
-console.log("showFiles ist Global")
+window.saveFiles = saveFiles;
+window.deleteButton = deleteButton;
+
 
 
