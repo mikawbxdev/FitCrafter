@@ -212,6 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
             showProfile(user.displayName, user.email)
         } else {
             // Der Benutzer ist nicht eingeloggt
+            accountBox.style.display = 'flex';
             sessionStorage.setItem('userLoggedIn', 'false');
             console.log('User is not logged in');
         }

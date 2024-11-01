@@ -13,7 +13,7 @@ console.log('upload.js wurde geladen');
 
 // Globale Variablen
 
-const apiKeys = ["Y5giVpqK82LETwzZ86jQJxQ3", "DhZEkW9QfcFQnGR1ujeAtchZ", "E4betQAzJP4mx9xK7nZ9Yi93", "fvsX9KAtHVdHjPzsyDWDXaLM"] // E4betQAzJP4mx9xK7nZ9Yi93 mit meinem google acc
+const apiKeys = ["fvsX9KAtHVdHjPzsyDWDXaLM", "HW2qBanSb8u2HntfRdCt1edg", "Xxofi4HxsY6NfzX6fdTT4rf9", "a8YboSZFEUpEDoWq2w8RMKEp", "cusAS6Aqwe67gFvvNtsFB1vN", "YCmhJMz3yKrwmsYVj3phLZZq", "QL4VeXC8U8aXH2ecqX6XgkpD" ] // E4betQAzJP4mx9xK7nZ9Yi93 mit meinem google acc
 let tempFiles = [];
 let tempFiles2 = [];
 let selectionMap = new Map();
@@ -127,7 +127,7 @@ async function removeBG() {
             const response = await fetch("https://api.remove.bg/v1.0/removebg", {
                 method: "POST",
                 headers: {
-                    "X-Api-Key": apiKeys[2],
+                    "X-Api-Key": apiKeys[0],
                 },
                 body: formData,
             });

@@ -5,42 +5,34 @@
     <title>FitCrafter</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <script src="index.js"></script>
+    <script src="index.js" type="module"></script>
 </head>
 <body>
     <div class="maincontainer">
       <div class = "sidebar" id="leftbar">
-          <button class="image-button">
+          <button class="image-button" onclick="location.href='../Closet page/kopfbedeckung.html'" >
               <img src="..\.Content\Icons\Kopf.png" alt="Kopfbedeckung">
           </button>
-          <button class="image-button">
+          <button class="image-button" onclick="location.href='../Closet page/tops.html'">
               <img src="..\.Content\Icons\Körper.png" alt="Tops">
           </button>
-          <button class="image-button">
+          <button class="image-button" onclick="location.href='../Closet page/bottoms.html'">
               <img src="..\.Content\Icons\Hose.png" alt="Bottoms">
           </button>
-          <button class="image-button">
+          <button class="image-button" onclick="location.href='../Closet page/schuhe.html'">
               <img src="..\.Content\Icons\Schuh.png" alt="Schuhe">
           </button>
-          <button class="image-button">
-              <img src="..\.Content\Icons\Zufall.png" alt="Zufallsmix">
+          <button class="image-button" id="shuffle-button">
+              <img src="..\.Content\Icons\Zufall.png" alt="Shuffle">
           </button>
       </div>
       <div class = "maincontainer" id="middlecontainer">
           <div class="homePageContainer">
               <div class="homePageClothing">
-                  <div class="fitPart" id="head-container">
-                      <img src="../.Content/Images/Cap-removebg-preview%20(2).png" alt="head">
-                  </div>
-                  <div class="fitPart" id="top-container">
-                      <img src="../.Content/Images/TShirt_zugeschnitten-removebg-preview.png" alt="top">
-                  </div>
-                  <div class="fitPart" id="bottom-container">
-                      <img src="../.Content/Images/Hose_zugeschnitten-removebg-preview.png" alt="bottom">
-                  </div>
-                  <div class="fitPart" id="shoes-container">
-                      <img src="../.Content/Images/WhatsApp_Image_2024-10-08_at_15.54.12-removebg-preview.png" alt="shoes">
-                  </div>
+                  <div class="fitPart" id="head-container"></div>
+                  <div class="fitPart" id="top-container"></div>
+                  <div class="fitPart" id="bottom-container"></div>
+                  <div class="fitPart" id="shoes-container"></div>
               </div>
               <input type="text" id="fitName" placeholder="Give this fit a name...">
           </div>
@@ -52,7 +44,7 @@
           <button class="image-button" onclick="location.href='../Closet page/closet.html'">
               <img src="..\.Content\Icons\Bügel.png" alt="Mein Kleiderschrank" id="bügel">
           </button>
-          <button class="image-button" onclick="location.href='../Closet page/closet.html'">
+          <button class="image-button" onclick="location.href='../Fits page/fits.html'">
               <img src="..\.Content\Icons\Fits.png" alt="Meine Fits" id="fits">
           </button>
           <button class="image-button" onclick="location.href='../Account page/account.html#profile'">

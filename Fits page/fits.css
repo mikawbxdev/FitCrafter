@@ -1,0 +1,92 @@
+/* Main Container - Grid */
+
+.gridContainer {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 0.1rem;
+    padding-right: 0.4rem;
+    grid-auto-rows: min-content;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: var(--offwhite);
+}
+.itembox {
+    width: auto;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 13px;
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 0.5rem;
+    /*border: 1px solid black;*/
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.15s;
+    background-color: var(--secondary);
+    overflow: hidden;
+    /*Animation*/
+    animation: slideDown 0.5s ease-in-out;
+    animation-fill-mode: backwards; /* Man sieht vor der Animation den ersten Frame der Animation */
+}
+.itembox:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.itembox img {
+    height: 80%;
+    width: 80%;
+    object-fit: contain;
+    overflow: hidden;
+}
+
+.close-btn {
+    z-index: 4;
+    position: absolute;
+    top: 5px;
+    right: 7px;
+    cursor: pointer;
+    padding: 0.1rem;
+    width: 1.3rem;
+    aspect-ratio: 1 / 1;
+    border: none;
+    background-color: transparent;
+}
+.close-btn img {
+    width: 10px;
+    height: 10px;
+}
+.close-btn:hover {
+    color: red;
+}
+.itemtext {
+    position: absolute; /* Absolut positioniert */
+    padding: 2%;
+    bottom: 0.5rem; /* Am unteren Rand der Box */
+    left: 0.5rem;
+    right: 0.5rem;
+    white-space: nowrap; /* Verhindert den Zeilenumbruch */
+    overflow: hidden; /* Versteckt den überlaufenden Text */
+    text-overflow: ellipsis;
+}
+#plus {
+    display: flex;
+    font-size: 200%;
+}
+
+/* Animation für den Slide-in-Effekt */
+@keyframes slideDown {
+    0% {
+        transform: scale(0.4);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
