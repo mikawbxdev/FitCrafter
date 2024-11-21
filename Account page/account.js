@@ -203,11 +203,11 @@ function showAlert(message, type = 'success') {
 
 document.addEventListener('DOMContentLoaded', function() {
     auth.onAuthStateChanged((user) => {
+        var accountBox = document.getElementById('accountBox');
         if (user) {
             // Der Benutzer ist eingeloggt
             sessionStorage.setItem('userLoggedIn', 'true');
             console.log('User is logged in:', user.email);
-            var accountBox = document.getElementById('accountBox');
             accountBox.style.display = 'none';
             showProfile(user.displayName, user.email)
         } else {
