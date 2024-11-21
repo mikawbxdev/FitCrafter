@@ -30,6 +30,7 @@ function checkUserLoggedIn() {
     }
 }
 
+
 // Funktion für das Laden von Bildern
 function loadRandomImage(category, containerId) {
     onAuthStateChanged(auth, (user) => {
