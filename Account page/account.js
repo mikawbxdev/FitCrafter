@@ -8,7 +8,7 @@ import {
     browserSessionPersistence,
     updateProfile
 } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-
+import { signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 // Deine Firebase-Konfiguration
 const firebaseConfig = {
     apiKey: "AIzaSyC_t4799qenZNVtznHqbObyyWYzZCX_9G8",
@@ -225,6 +225,29 @@ function showProfile(name, email) {
     accountBox2.innerHTML = `
         <h2>Profile</h2>
         <p>Name: ${name}</p>
-        <p>Email: ${email}</p>
+        <p>Email: ${email}</p> 
+        <button id="logoutButton" class="submitButton">Logout</button>
     `;
+    setupLogoutButton();
+}
+
+
+
+function setupLogoutButton() {
+    const logoutButton = document.querySelector('#logoutButton');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', () => {
+            signOut(auth)
+                .then(() => {
+                    showAlert('You have been logged out successfully.', 'success');
+                    sessionStorage.setItem('userLoggedIn', 'false');
+                    setTimeout(() => {
+                        window.location.href = '../Account page/account.html'; // Zurück zur Login-Seite
+                    }, 2000);
+                })
+                .catch((error) => {
+                    showAlert('Logout failed: ' + error.message, 'error');
+                });
+        });
+    }
 }
