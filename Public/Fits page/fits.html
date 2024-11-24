@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FitCrafter - Fits</title>
+  <link rel="stylesheet" href="/Homepage/styles.css">
+  <link rel="stylesheet" href="/Fits%20page/fits.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+</head>
+<body>
+<div class="maincontainer">
+  <div class="sidebar" id="leftbar">
+    <button disabled class="image-button">
+    </button>
+    <button class="image-button">
+    </button>
+    <button class="image-button">
+    </button>
+    <button class="image-button">
+    </button>
+    <button class="image-button">
+    </button>
+  </div>
+  <div class="maincontainer" id="middlecontainer">
+    <div class="gridContainer" id="gridContainer">
+      <!-- Plus-Symbol zum Hinzufügen neuer Items -->
+      <!-- Dynamisch geladene Elemente werden hier hinzugefügt -->
+    </div>
+  </div>
+  <div class="sidebar" id="rightbar">
+    <button class="image-button" onclick="location.href='/Homepage/home.html'">
+      <img src="/Content/Icons/Home.png" alt="Startseite" id="home">
+    </button>
+    <button class="image-button" onclick="location.href='/Closet%20page/closet.html'">
+      <img src="/Content/Icons/Bügel.png" alt="Mein Kleiderschrank" id="bügel">
+    </button>
+    <button class="image-button" onclick="location.href='/Fits%20page/fits.html'">
+      <img src="/Content/Icons/Fits.png" alt="Meine Fits" id="fits">
+    </button>
+    <button class="image-button" onclick="location.href='/Account%20page/account.html'">
+      <img src="/Content/Icons/Profil.png" alt="Mein Profil" id="profil">
+    </button>
+    <button class="image-button" onclick="location.href='/Upload/upload.html'">
+      <img src="/Content/Icons/Plus.png" alt="Hinzufügen">
+    </button>
+  </div>
+</div>
+<div id="alert-container"></div>
+<script src="/Fits%20page/fits.js" type="module"></script>
+</body>
+</html>

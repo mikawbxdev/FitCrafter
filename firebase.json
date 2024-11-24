@@ -1,0 +1,36 @@
+{
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "headers": [
+      {
+        "source": "**/*",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "Access-Control-Allow-Methods",
+            "value": "*"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      { "source": "/Account page/**", "destination": "/Account page/account.html" },
+      { "source": "/Closet page/closet.html", "destination": "/Closet page/closet.html" },
+      { "source": "/Closet page/bottoms.html", "destination": "/Closet page/bottoms.html" },
+      { "source": "/Closet page/kopfbedeckung.html", "destination": "/Closet page/kopfbedeckung.html" },
+      { "source": "/Closet page/schuhe.html", "destination": "/Closet page/schuhe.html" },
+      { "source": "/Closet page/tops.html", "destination": "/Closet page/tops.html" },
+      { "source": "/Fits page/**", "destination": "/Fits page/fits.html" },
+      { "source": "/Upload/**", "destination": "/Upload/upload.html" },
+      { "source": "**", "destination": "/Homepage/index.html" }
+    ]
+  }
+}

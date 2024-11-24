@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FitCrafter</title>
+    <link rel="stylesheet" href="/Homepage/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="/Upload/upload.css">
+    <script src="/Homepage/index.js" type="module"></script>
+    <script src="/Fits%20page/fits.js" type="module"></script>
+</head>
+<body>
+<div class="maincontainer">
+    <div class="sidebar" id="leftbar">
+        <button class="image-button" onclick="showSelectionView('kopfbedeckung')">
+            <img src="/Content/Icons/Kopf.png" alt="Kopfbedeckung">
+        </button>
+        <button class="image-button" onclick="showSelectionView('tops')">
+            <img src="/Content/Icons/Körper.png" alt="Tops">
+        </button>
+        <button class="image-button" onclick="showSelectionView('bottoms')">
+            <img src="/Content/Icons/Hose.png" alt="Bottoms">
+        </button>
+        <button class="image-button" onclick="showSelectionView('schuhe')">
+            <img src="/Content/Icons/Schuh.png" alt="Schuhe">
+        </button>
+        <button class="image-button" id="shuffle-button" onclick="shuffleOutfit()">
+            <img src="/Content/Icons/Zufall.png" alt="Shuffle">
+        </button>
+    </div>
+
+    <!-- Middle Container -->
+    <div class="maincontainer" id="middlecontainer">
+        <!-- Startseite -->
+        <div id="homepage" class="homePageContainer">
+            <div class="homePageClothing">
+                <div class="fitPart" id="head-container"></div>
+                <div class="fitPart" id="top-container"></div>
+                <div class="fitPart" id="bottom-container"></div>
+                <div class="fitPart" id="shoes-container"></div>
+            </div>
+            <button class="submitButton" id="saveFitButton" onclick="uploadSingleFit()">
+                Save this fit
+            </button>
+        </div>
+
+        <!-- Auswahlbereiche für Kategorien -->
+        <div id="kopfbedeckung-selection" class="selectionView" style="display: none;">
+            <div class="gridContainer" id="kopfbedeckung-grid"></div>
+        </div>
+        <div id="tops-selection" class="selectionView" style="display: none;">
+            <div class="gridContainer" id="tops-grid"></div>
+        </div>
+        <div id="bottoms-selection" class="selectionView" style="display: none;">
+            <div class="gridContainer" id="bottoms-grid"></div>
+        </div>
+        <div id="schuhe-selection" class="selectionView" style="display: none;">
+            <div class="gridContainer" id="schuhe-grid"></div>
+        </div>
+    </div>
+    <div class = "sidebar" id="rightbar">
+        <button class="image-button" onclick="location.href='/Homepage/home.html'">
+            <img src="/Content/Icons/Home.png" alt="Startseite" id="home">
+        </button>
+        <button class="image-button" onclick="location.href='/Closet%20page/closet.html'">
+            <img src="/Content/Icons/Bügel.png" alt="Mein Kleiderschrank" id="bügel">
+        </button>
+        <button class="image-button" onclick="location.href='/Fits%20page/fits.html'">
+            <img src="/Content/Icons/Fits.png" alt="Meine Fits" id="fits">
+        </button>
+        <button class="image-button" onclick="location.href='/Account%20page/account.html#profile'">
+            <img src="/Content/Icons/Profil.png" alt="Mein Profil" id="profil">
+        </button>
+        <button class="image-button" onclick="location.href='/Upload/upload.html'">
+            <img src="/Content/Icons/Plus.png" alt="Hinzufügen">
+        </button>
+    </div>
+</div>
+<div id="alert-container"></div>
+</body>
+</html>

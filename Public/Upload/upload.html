@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FitCrafter - Dein Account</title>
+    <link rel="stylesheet" href="/Homepage/styles.css">
+    <link rel="stylesheet" href="/Closet%20page/closet.css">
+    <link rel="stylesheet" href="/Upload/upload.css">
+    <link rel="stylesheet" href="/Account%20page/account.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+</head>
+<body>
+<div class="maincontainer">
+    <div class="sidebar" id="leftbar">
+        <button disabled class="image-button">
+        </button>
+        <button class="image-button">
+        </button>
+        <button class="image-button">
+        </button>
+        <button class="image-button">
+        </button>
+        <button class="image-button">
+        </button>
+    </div>
+    <div class="maincontainer" id="middlecontainer">
+        <div class="uploadContainer">
+            <h2>Upload</h2>
+            <div class="upload-box" id="uploadBox">
+                <img src="/Content/Icons/uploadicon.png" />
+                <p>Drag & Drop your files here or click to upload</p>
+                <input type="file" id="fileInput" multiple hidden>
+            </div>
+            <div id="fileList"></div>
+            <button class="submitButton" id="nextButton" onclick="showFiles()" disabled>
+                Next
+            </button>
+        </div>
+    </div>
+    <div class="maincontainer" id="middlecontainer2">
+        <span class="subtitle">Please select the type of clothing for every piece.</span>
+        <div class="gridContainer" id="uploadContainer2">
+            <!-- Dynamische Inhalte werden hier hinzugefügt -->
+        </div>
+        <span class="buttonContainer">
+            <button class="submitButton" id="saveButton" onclick="saveFiles();" disabled title="Please select the clothing types first.">Save</button>
+        </span>
+    </div>
+    <div class="sidebar" id="rightbar">
+        <button class="image-button" onclick="location.href='/Homepage/home.html'">
+            <img src="/Content/Icons/Home.png" alt="Startseite" id="home">
+        </button>
+        <button class="image-button" onclick="location.href='/Closet%20page/closet.html'">
+            <img src="/Content/Icons/Bügel.png" alt="Mein Kleiderschrank" id="bügel">
+        </button>
+        <button class="image-button" onclick="location.href='/Fits%20page/fits.html'">
+            <img src="/Content/Icons/Fits.png" alt="Meine Fits" id="fits">
+        </button>
+        <button class="image-button" onclick="location.href='/Account%20page/account.html'">
+            <img src="/Content/Icons/Profil.png" alt="Mein Profil" id="profil">
+        </button>
+        <button class="image-button" onclick="location.href='/Upload/upload.html'">
+            <img src="/Content/Icons/Plus.png" alt="Hinzufügen">
+        </button>
+    </div>
+</div>
+<div id="alert-container"></div>
+<script type="module" src="/Upload/upload.js"></script>
+</body>
+</html>

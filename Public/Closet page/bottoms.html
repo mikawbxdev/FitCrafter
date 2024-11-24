@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FitCrafter - Kleiderschrank</title>
+    <link rel="stylesheet" href="/Homepage/styles.css">
+    <link rel="stylesheet" href="/Closet%20page/closet.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+</head>
+<body>
+<div class="maincontainer">
+    <div class="sidebar" id="leftbar">
+        <button class="image-button" onclick="location.href='/Closet%20page/kopfbedeckung.html'" >
+            <img src="/Content/Icons/Kopf.png" alt="Kopfbedeckung">
+        </button>
+        <button class="image-button" onclick="location.href='/Closet%20page/tops.html'">
+            <img src="/Content/Icons/Körper.png" alt="Tops">
+        </button>
+        <button class="image-button" onclick="location.href='/Closet%20page/bottoms.html'">
+            <img src="/Content/Icons/Hose.png" alt="Bottoms">
+        </button>
+        <button class="image-button" onclick="location.href='/Closet%20page/schuhe.html'">
+            <img src="/Content/Icons/Schuh.png" alt="Schuhe">
+        </button>
+        <button class="image-button">
+            <img src="/Content/Icons/Zufall.png" alt="Zufallsmix">
+        </button>
+    </div>
+    <div class="maincontainer" id="middlecontainer">
+        <div class="gridContainer" id="gridContainer">
+            <!-- Plus-Symbol zum Hinzufügen neuer Items -->
+            <div class="itembox" id="plus">+</div>
+            <!-- Dynamisch geladene Elemente werden hier hinzugefügt -->
+        </div>
+    </div>
+    <div class="sidebar" id="rightbar">
+        <button class="image-button" onclick="location.href='/Homepage/home.html'">
+            <img src="/Content/Icons/Home.png" alt="Startseite" id="home">
+        </button>
+        <button class="image-button" onclick="location.href='/Closet%20page/closet.html'">
+            <img src="/Content/Icons/Bügel.png" alt="Mein Kleiderschrank" id="bügel">
+        </button>
+        <button class="image-button" onclick="location.href='/Fits%20page/fits.html'">
+            <img src="/Content/Icons/Fits.png" alt="Meine Fits" id="fits">
+        </button>
+        <button class="image-button" onclick="location.href='/Account%20page/account.html'">
+            <img src="/Content/Icons/Profil.png" alt="Mein Profil" id="profil">
+        </button>
+        <button class="image-button" onclick="location.href='/Upload/upload.html'">
+            <img src="/Content/Icons/Plus.png" alt="Hinzufügen">
+        </button>
+    </div>
+</div>
+<script type="module">
+    import { loadUserImages } from '/Closet%20page/bottoms.js';
+
+    window.onload = function() {
+        loadUserImages(); // Lädt die Bilder, sobald die Seite geladen ist
+    };
+</script>
+</body>
+</html>
