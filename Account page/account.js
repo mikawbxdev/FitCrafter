@@ -232,7 +232,6 @@ function showProfile(name, email) {
 }
 
 
-
 function setupLogoutButton() {
     const logoutButton = document.querySelector('#logoutButton');
     if (logoutButton) {
@@ -251,4 +250,3 @@ function setupLogoutButton() {
         });
     }
 }
-test

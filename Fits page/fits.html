@@ -2,34 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>FitCrafter - Kleiderschrank</title>
+  <title>FitCrafter - Fits</title>
   <link rel="stylesheet" href="../Homepage/styles.css">
-  <link rel="stylesheet" href="closet.css">
+  <link rel="stylesheet" href="fits.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
 </head>
 <body>
 <div class="maincontainer">
   <div class = "sidebar" id="leftbar">
-    <button class="image-button" onclick="location.href='../Closet page/kopfbedeckung.html'" >
-      <img src="..\.Content\Icons\Kopf.png" alt="Kopfbedeckung">
-    </button>
-    <button class="image-button" onclick="location.href='../Closet page/tops.html'">
-      <img src="..\.Content\Icons\Körper.png" alt="Tops">
-    </button>
-    <button class="image-button" onclick="location.href='../Closet page/bottoms.html'">
-      <img src="..\.Content\Icons\Hose.png" alt="Bottoms">
-    </button>
-    <button class="image-button" onclick="location.href='../Closet page/schuhe.html'">
-      <img src="..\.Content\Icons\Schuh.png" alt="Schuhe">
+    <button disabled class="image-button" >
     </button>
     <button class="image-button">
-      <img src="..\.Content\Icons\All Button.png" alt="All Button">
+    </button>
+    <button class="image-button">
+    </button>
+    <button class="image-button">
+    </button>
+    <button class="image-button">
     </button>
   </div>
   <div class="maincontainer" id="middlecontainer">
     <div class="gridContainer" id="gridContainer">
       <!-- Plus-Symbol zum Hinzufügen neuer Items -->
-      <div class="itembox" id="plus">+</div>
       <!-- Dynamisch geladene Elemente werden hier hinzugefügt -->
     </div>
   </div>
@@ -51,12 +45,17 @@
     </button>
   </div>
 </div>
-<script type="module">
-  import { loadUserImages } from './closet.js';
-
-  window.onload = function() {
-    loadUserImages(); // Lädt die Bilder, sobald die Seite geladen ist
-  };
+<div id="alert-container"></div>
+<script src="fits.js" type="module">
+  // var newFit = new Fit(
+  //         'https://firebasestorage.googleapis.com/v0/b/fitcrafter-e6ed3.appspot.com/o/users%2FNYkxMDE7axaszJ4Bf0DXup2LVB72%2Fimages%2FKopfbedeckung%2FKopfbedeckung__1871519851.png?alt=media&token=9d7040cb-8ab6-4d7b-b6ba-7b25991ccaf8',
+  //         'https://firebasestorage.googleapis.com/v0/b/fitcrafter-e6ed3.appspot.com/o/users%2FNYkxMDE7axaszJ4Bf0DXup2LVB72%2Fimages%2FTops%2FTops__52778856.png?alt=media&token=eeda6705-77d3-4bf9-a3d4-3c77af9d459c',
+  //         'https://firebasestorage.googleapis.com/v0/b/fitcrafter-e6ed3.appspot.com/o/users%2FNYkxMDE7axaszJ4Bf0DXup2LVB72%2Fimages%2FBottoms%2FBottoms__813626452.png?alt=media&token=313db78c-b641-4ed9-a2e3-0116a9aa94fe',
+  //         'https://firebasestorage.googleapis.com/v0/b/fitcrafter-e6ed3.appspot.com/o/users%2FNYkxMDE7axaszJ4Bf0DXup2LVB72%2Fimages%2FSchuhe%2FSchuhe__2015505842.png?alt=media&token=34dbea44-bf45-4c2d-8bd1-a0471ab099f0'
+  // );
+  //
+  // uploadFits([newFit]);
+  // console.log(loadFits());
 </script>
 </body>
 </html>

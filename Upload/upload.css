@@ -7,9 +7,6 @@
     justify-content: center;
 }
 
-#leftbar {
-    visibility: hidden;
-}
 .uploadContainer {
     width: 80%;
     height: max(30rem, 60%);
