@@ -1,11 +1,30 @@
 import { ref, listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
-import { storage } from '../Firebase/Fire.js';
+import { storage } from '../Firebase/fire.js';
 import { onAuthStateChanged, getAuth } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 import {
     uploadBytes
 } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
-
+import { loadFits, uploadFits } from '../Fits page/fits.js';
 const auth = getAuth();
+// Beim Laden der Seite
+window.onload = function() {
+    checkUserLoggedIn();
+    const urlParams = new URLSearchParams(window.location.search);
+    const fitId = urlParams.get('fit'); // Gibt den Wert des Parameters 'fit' zurück
+
+    if (fitId) {
+        // Wenn der Parameter existiert, lade den entsprechenden Fit
+        loadFitById(fitId);
+        window.history.pushState({}, '', "/"); // Aktualisiert die URL, ohne die Seite neu zu laden
+
+    } else {
+        // Lade die zufälligen Bilder für die Startseite
+        loadRandomImage('Kopfbedeckung', 'head-container');
+        loadRandomImage('Tops', 'top-container');
+        loadRandomImage('Bottoms', 'bottom-container');
+        loadRandomImage('Schuhe', 'shoes-container');
+    }
+};
 
 // Funktion zum Anzeigen des Auswahlbereichs
 function showSelectionView(category) {
@@ -65,13 +84,7 @@ function displayItem(url, name, category, container) {
         selectItem(url, category);
     });
 
-    // Optional: Text unter dem Bild
-    const itemText = document.createElement('div');
-    itemText.className = 'itemtext';
-    itemText.textContent = name;
-
     itemBox.appendChild(img);
-    itemBox.appendChild(itemText); // Falls verwendet
     container.appendChild(itemBox);
 }
 
@@ -169,6 +182,21 @@ function loadRandomImage(category, containerId) {
     });
 }
 
+function loadFitById (fitString64) {
+    fitString64 = JSON.parse(atob(fitString64));
+    console.log('Fit loaded:', [fitString64.kopfbedeckung, fitString64.top, fitString64.bottom, fitString64.schuhe]);
+
+    [fitString64.kopfbedeckung, fitString64.top, fitString64.bottom, fitString64.schuhe].forEach((url, index) => {
+        const category = ['head', 'top', 'bottom', 'shoes'][index];
+        const container = document.getElementById(`${category}-container`);
+        // container.innerHTML = null;
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = category;
+        container.appendChild(img);
+    });
+}
+
 // Funktion zum Mischen des Outfits
 function shuffleOutfit() {
     loadRandomImage('Kopfbedeckung', 'head-container');
@@ -178,21 +206,6 @@ function shuffleOutfit() {
 }
 
 
-
-// Funktionen für globale Verfügbarkeit
-window.shuffleOutfit = shuffleOutfit;
-
-
-// Beim Laden der Seite
-window.onload = function() {
-    checkUserLoggedIn();
-    // Lade die zufälligen Bilder für die Startseite
-    loadRandomImage('Kopfbedeckung', 'head-container');
-    loadRandomImage('Tops', 'top-container');
-    loadRandomImage('Bottoms', 'bottom-container');
-    loadRandomImage('Schuhe', 'shoes-container');
-};
-
 class Fit {
     constructor(kopfbedeckung, top, bottom, schuhe) {
         this.kopfbedeckung = kopfbedeckung;
@@ -201,91 +214,11 @@ class Fit {
         this.schuhe = schuhe;
     }
 }
-function uploadFits(fits) {
-    // Überprüfe, ob der Benutzer eingeloggt ist und hole die Benutzer-ID
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            const userId = user.uid; // Hole die Benutzer-ID
-            const storagePath = `users/${userId}/Fits/fits.json`; // Speicherpfad für die Datei
 
-            // JSON-File aus dem Array erstellen
-            const fileContent = JSON.stringify(fits, null, 2); // Formatierte JSON-Daten
-            const fileBlob = new Blob([fileContent], { type: 'application/json' }); // Blob aus JSON-Daten
 
-            // Speicher-Referenz in Firebase
-            const storageRef = ref(storage, storagePath);
 
-            // Datei hochladen
-            uploadBytes(storageRef, fileBlob)
-                .then((snapshot) => {
-                    console.log('Fit Datei erfolgreich hochgeladen!', snapshot);
 
-                    // URL der hochgeladenen Datei abrufen
-                    getDownloadURL(storageRef)
-                        .then((url) => {
-                            console.log('Datei-URL:', url);
-                        })
-                        .catch((error) => {
-                            console.error('Fehler beim Abrufen der URL:', error);
-                            showAlert('Error getting file URL: ' + error.message, 'error');
-                            return false;
-                        });
-                })
-                .catch((error) => {
-                    console.error('Fehler beim Hochladen der Datei:', error);
-                    showAlert('Error uploading file: ' + error.message, 'error');
-                    return false;
-                });
-        } else {
-            showAlert('Please login first to upload clothes.', 'error');
-            return false;
-        }
-    });
-    return true;
-}
 
-async function loadFits() {
-    return new Promise((resolve, reject) => {
-        // Überprüfe, ob der Benutzer eingeloggt ist
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                const userId = user.uid; // Benutzer-ID holen
-                const storagePath = `users/${userId}/Fits/fits.json`; // Speicherpfad zur Datei
-
-                // Speicher-Referenz in Firebase
-                const storageRef = ref(storage, storagePath);
-
-                try {
-                    // Datei-URL abrufen
-                    const url = await getDownloadURL(storageRef);
-
-                    // JSON-Datei von der URL abrufen
-                    const response = await fetch(url);
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP-Fehler! Status: ${response.status}`);
-                    }
-
-                    // JSON-Inhalt in ein Array umwandeln
-                    const fitsData = await response.json();
-
-                    // Daten zu Fit-Objekten umwandeln
-                    const fits = fitsData.map(fit => new Fit(fit.kopfbedeckung, fit.top, fit.bottom, fit.schuhe));
-
-                    console.log('Erfolgreich Fits geladen:', fits);
-                    resolve(fits); // Array von Fit-Objekten zurückgeben
-                } catch (error) {
-                    console.error('Fehler beim Laden der Fits:', error);
-                    showAlert('Error loading fits: ' + error.message, 'error');
-                    reject(error); // Fehler weitergeben
-                }
-            } else {
-                showAlert('Please login first to load clothes.', 'error');
-                reject(new Error('User not logged in')); // Fehler zurückgeben
-            }
-        });
-    });
-}
 
 function uploadSingleFit() {
 // Hole das Bild für "top-container"
@@ -362,3 +295,4 @@ export function showAlert(message, type = 'success') {
 
 window.uploadSingleFit = uploadSingleFit;
 window.Fit = Fit;
+window.shuffleOutfit = shuffleOutfit;

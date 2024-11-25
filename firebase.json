@@ -8,15 +8,38 @@
     ],
     "headers": [
       {
-        "source": "**/*",
+        "source": "**/*.js",
         "headers": [
           {
-            "key": "Access-Control-Allow-Origin",
-            "value": "*"
-          },
+            "key": "Content-Type",
+            "value": "application/javascript; charset=utf-8"
+          }
+        ]
+      },
+      {
+        "source": "**/*.css",
+        "headers": [
           {
-            "key": "Access-Control-Allow-Methods",
-            "value": "*"
+            "key": "Content-Type",
+            "value": "text/css; charset=utf-8"
+          }
+        ]
+      },
+      {
+        "source": "**/*.html",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "text/html; charset=utf-8"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(ttf|woff|woff2|otf)",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "font/ttf; charset=utf-8"
           }
         ]
       }
@@ -30,6 +53,7 @@
       { "source": "/Closet page/tops.html", "destination": "/Closet page/tops.html" },
       { "source": "/Fits page/**", "destination": "/Fits page/fits.html" },
       { "source": "/Upload/**", "destination": "/Upload/upload.html" },
+      { "source": "/Firebase/**", "destination": "/Firebase/fire.js" },
       { "source": "**", "destination": "/Homepage/index.html" }
     ]
   }

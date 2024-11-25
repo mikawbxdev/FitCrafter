@@ -1,6 +1,6 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 // Importiere die auth und storage Konfiguration aus der fire.js-Datei
-import { auth, storage } from '../Firebase/fire.js';
+import { auth, storage } from '/Firebase/fire.js';
 import {
     getStorage,
     ref,
@@ -8,7 +8,7 @@ import {
     listAll,
     getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
-import { showAlert } from '../Homepage/index.js';
+import { showAlert } from '/Homepage/index.js';
 
 console.log('upload.js wurde geladen');
 
@@ -31,6 +31,7 @@ function initDragDrop(){
     uploadBox.addEventListener('click', () => {
         fileInput.click();
     });
+
 
 // Wenn der Nutzer eine Datei auswählt
     fileInput.addEventListener('change', (e) => {
@@ -163,7 +164,7 @@ function saveFiles() {
     if (success) {
         showAlert("Your clothes were successfully uploaded!", "success");
         setTimeout(() => {
-            window.location.href = '../Closet page/closet.html';
+            window.location.href = '/Closet%20page/closet.html';
         }, 2000);
     }
 }
@@ -175,21 +176,21 @@ function createItemBox(file) {
     return `
         <div class="itembox" id="${file.name}">
             <button class="close-btn" onclick="deleteButton(\'${file.name}\')">
-                <img src="../.Content/Icons/x-button.png" alt="Delete">
+                <img src="/Content/Icons/x-button.png" alt="Delete">
             </button>
             <img id='img' src="${URL.createObjectURL(file)}" alt="Clothing">
             <div class="icon-selection">
                 <button class="select-button" data-selection="Kopfbedeckung">
-                    <img src="../.Content/Icons/Kopf.png" alt="Kopfbedeckung">
+                    <img src="/Content/Icons/Kopf.png" alt="Kopfbedeckung">
                 </button>
                 <button class="select-button" data-selection="Tops">
-                    <img src="../.Content/Icons/Körper.png" alt="Tops">
+                    <img src="/Content/Icons/Körper.png" alt="Tops">
                 </button>
                 <button class="select-button" data-selection="Bottoms">
-                    <img src="../.Content/Icons/Hose.png" alt="Bottoms">
+                    <img src="/Content/Icons/Hose.png" alt="Bottoms">
                 </button>
                 <button class="select-button" data-selection="Schuhe">
-                    <img src="../.Content/Icons/Schuh.png" alt="Schuhe">
+                    <img src="/Content/Icons/Schuh.png" alt="Schuhe">
                 </button>
             </div>
         </div>

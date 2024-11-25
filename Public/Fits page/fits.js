@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
-function uploadFits(fits) {
+export function uploadFits(fits) {
     // Überprüfe, ob der Benutzer eingeloggt ist und hole die Benutzer-ID
     onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -66,7 +66,7 @@ function uploadFits(fits) {
     return true;
 }
 
-async function loadFits() {
+export async function loadFits() {
     return new Promise((resolve, reject) => {
         // Überprüfe, ob der Benutzer eingeloggt ist
         onAuthStateChanged(auth, async (user) => {
@@ -110,45 +110,53 @@ async function loadFits() {
 }
 
 function removeFit(fits, index) {
-    var fitsNew = fits.filter((fit, fitIndex) => fitIndex !== index);
+    if (!confirm('Are you sure you want to delete this fit?')) {
+        return
+    }
+    var fitsNew = [];
+    var i = -1;
+    for (const fit of fits) {
+        i++
+        if (i !== index) {
+            fitsNew.push(fit);
+        }
+    }
     uploadFits(fitsNew);
     showFits(fitsNew);
 }
 
 function showFits(fits) {
-    var i = 0;
-    for (const fit of fits){
-        i++;
-        // const fitsContainer = document.getElementById('fitsC');
-        const container = document.querySelector('.gridContainer');
-        container.innerHTML = container.innerHTML + `
-        <div class="itembox" id="${i}">
-        <button class="close-btn">
-            <img src="../.Content/Icons/x-button.png" onclick="${removeFit(i)}">
-        </button>
-            <div class="fitItemContainer">
-                <div class="fitPart" id="head-container">
-                    <img src="${fit.kopfbedeckung}" alt="Head" class="fit-image">
-                </div>
-                <div class="fitPart" id="top-container">
-                    <img src="${fit.top}" alt="Top" class="fit-image">
-                </div>
-                <div class="fitPart" id="bottom-container">
-                    <img src="${fit.bottom}" alt="Bottom" class="fit-image">
-                </div>
-                <div class="fitPart" id="shoes-container">
-                    <img src="${fit.schuhe}" alt="Shoes" class="fit-image">
+    const container = document.querySelector('.gridContainer');
+    container.innerHTML = ''; // Lösche vorhandene Inhalte
+
+    fits.forEach((fit, i) => {
+        const fitHTML = `
+            <div class="itembox" id="fit-${i}" onclick="window.location.href = '../Homepage/home.html?fit=${btoa(JSON.stringify(fit))}'">
+                <button class="close-btn">
+                    <img src="../.Content/Icons/x-button.png" alt="Delete fit">
+                </button>
+                <div class="fitItemContainer">
+                    <div class="fitPart" id="head-container-${i}">
+                        <img src="${fit.kopfbedeckung}" alt="Head" class="fit-image">
+                    </div>
+                    <div class="fitPart" id="top-container-${i}">
+                        <img src="${fit.top}" alt="Top" class="fit-image">
+                    </div>
+                    <div class="fitPart" id="bottom-container-${i}">
+                        <img src="${fit.bottom}" alt="Bottom" class="fit-image">
+                    </div>
+                    <div class="fitPart" id="shoes-container-${i}">
+                        <img src="${fit.schuhe}" alt="Shoes" class="fit-image">
+                    </div>
                 </div>
             </div>
-        </div>
-    `;
-        const closeButton = document.querySelector('.close-btn');
-        // Event-Listener für den "Löschen"-Button
-        closeButton.addEventListener('click', () => {
-            // Bestätigen, ob der Benutzer das Bild wirklich löschen möchte
-            if (confirm('Möchtest du dieses Bild wirklich löschen?')) {
-                //TODO: Fit aus Firebase Storage löschen
-            }
-        });
-    }
+        `;
+        container.innerHTML += fitHTML;
+    });
+
+    // Event-Listener separat binden
+    const closeButtons = container.querySelectorAll('.close-btn img');
+    closeButtons.forEach((button, i) => {
+        button.addEventListener('click', () => removeFit(fits, i));
+    });
 }

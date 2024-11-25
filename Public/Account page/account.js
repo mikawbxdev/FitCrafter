@@ -203,18 +203,26 @@ function showAlert(message, type = 'success') {
 
 document.addEventListener('DOMContentLoaded', function() {
     auth.onAuthStateChanged((user) => {
-        var accountBox = document.getElementById('accountBox');
+        const accountBox = document.getElementById('accountBox');
+        const accountBox2 = document.getElementById('accountBox2');
+
         if (user) {
-            // Der Benutzer ist eingeloggt
+            // Benutzer ist eingeloggt
             sessionStorage.setItem('userLoggedIn', 'true');
             console.log('User is logged in:', user.email);
+
+            // Zeige nur die Profilbox an und verstecke die Registrierungs-/Loginbox
             accountBox.style.display = 'none';
-            showProfile(user.displayName, user.email)
+            accountBox2.style.display = 'flex';
+            showProfile(user.displayName, user.email);
         } else {
-            // Der Benutzer ist nicht eingeloggt
-            accountBox.style.display = 'flex';
+            // Benutzer ist nicht eingeloggt
             sessionStorage.setItem('userLoggedIn', 'false');
             console.log('User is not logged in');
+
+            // Zeige nur die Registrierungs-/Loginbox an und verstecke die Profilbox
+            accountBox.style.display = 'flex';
+            accountBox2.style.display = 'none';
         }
     });
 });
@@ -238,11 +246,19 @@ function setupLogoutButton() {
         logoutButton.addEventListener('click', () => {
             signOut(auth)
                 .then(() => {
+                    // Zuerst die Login-Box anzeigen und die Profil-Box ausblenden
+                    const accountBox = document.getElementById('accountBox');
+                    const accountBox2 = document.getElementById('accountBox2');
+                    accountBox.style.display = 'flex'; // Login-Box anzeigen
+                    accountBox2.style.display = 'none'; // Profil-Box ausblenden
+
+                    // Danach den Alert anzeigen
                     showAlert('You have been logged out successfully.', 'success');
-                    sessionStorage.setItem('userLoggedIn', 'false');
+
+                    // Nach einer Verzögerung weiterleiten
                     setTimeout(() => {
                         window.location.href = '../Account page/account.html'; // Zurück zur Login-Seite
-                    }, 2000);
+                    }, 100);
                 })
                 .catch((error) => {
                     showAlert('Logout failed: ' + error.message, 'error');

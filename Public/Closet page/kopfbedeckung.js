@@ -3,24 +3,21 @@ import { storage } from '../Firebase/Fire.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 import { deleteObject, ref as storageRef, getStorage } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
 import { auth } from '../Firebase/Fire.js';
+import { showAlert } from './closet.js';
 
 
 function loadUserImages() {
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            console.log('User is logged in:', user.uid);
             const categories = ['Kopfbedeckung'];
             categories.forEach(category => {
                 const path = `users/${user.uid}/images/${category}/`;
                 const storageRef = ref(getStorage(), path);
-                console.log('Checking path:', path);
 
                 listAll(storageRef).then((result) => {
-                    console.log(`Found ${result.items.length} items in ${category}`);
                     result.items.forEach((itemRef) => {
                         getDownloadURL(itemRef).then((url) => {
-                            console.log('Displaying image from URL:', url);
-                            displayImage(url, itemRef.name);
+                            displayImage(url, itemRef.name, category);
                         });
                     });
                 }).catch((error) => {
@@ -34,8 +31,7 @@ function loadUserImages() {
 }
 
 
-
-function displayImage(url, name) {
+function displayImage(url, name, category) {
     const container = document.querySelector('.gridContainer');
     const itemBox = document.createElement('div');
     itemBox.className = 'itembox';
@@ -46,43 +42,29 @@ function displayImage(url, name) {
 
     const closeButton = document.createElement('button');
     closeButton.className = 'close-btn';
-    closeButton.innerHTML = '<img src="../ContentIcons/x-button.png"/>';
+    closeButton.innerHTML = '<img src="../Content/Icons/x-button.png" alt=""/>';
 
     // Event-Listener für den "Löschen"-Button
     closeButton.addEventListener('click', () => {
-        // Bestätigen, ob der Benutzer das Bild wirklich löschen möchte
-        if (confirm('Möchtest du dieses Bild wirklich löschen?')) {
-            // Bild aus Firebase Storage löschen
-            const storageReference = storageRef(getStorage(), `users/${auth.currentUser.uid}/images/${category}/${name}`);
+        // Bild aus Firebase Storage löschen
+        const storageReference = storageRef(getStorage(), `users/${auth.currentUser.uid}/images/${category}/${name}`);
 
-            console.log('Versuche, das Bild zu löschen:', storageReference.fullPath);
-
-            deleteObject(storageReference).then(() => {
-                console.log('Bild erfolgreich gelöscht:', name);
-                // Bild aus dem DOM entfernen
-                container.removeChild(itemBox);
-            }).catch((error) => {
-                console.error('Fehler beim Löschen des Bildes:', error);
-                alert('Fehler beim Löschen des Bildes. Überprüfe die Konsole für Details.');
-            });
-        }
+        deleteObject(storageReference).then(() => {
+            console.log('Bild erfolgreich gelöscht:', name);
+            // Bild aus dem DOM entfernen
+            container.removeChild(itemBox);
+            // Erfolgsmeldung anzeigen
+            showAlert('Bild erfolgreich gelöscht.', 'success');
+        }).catch((error) => {
+            console.error('Fehler beim Löschen des Bildes:', error);
+            showAlert('Fehler beim Löschen des Bildes.', 'error');
+        });
     });
+
 
     itemBox.appendChild(closeButton);
     itemBox.appendChild(img);
     container.appendChild(itemBox);
 }
 
-
-
-// Funktion zum Löschen eines Bildes aus Firebase Storage
-function deleteImage(imagePath) {
-    const imageRef = ref(storage, imagePath);
-
-    deleteObject(imageRef).then(() => {
-        console.log('Bild erfolgreich gelöscht');
-    }).catch((error) => {
-        console.error('Fehler beim Löschen des Bildes:', error);
-    });
-}
 export { loadUserImages };

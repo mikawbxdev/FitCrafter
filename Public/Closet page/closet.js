@@ -8,19 +8,15 @@ import { auth } from '../Firebase/Fire.js';
 function loadUserImages() {
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            console.log('User is logged in:', user.uid);
             const categories = ['Tops', 'Bottoms', 'Kopfbedeckung', 'Schuhe'];
             categories.forEach(category => {
                 const path = `users/${user.uid}/images/${category}/`;
                 const storageRef = ref(getStorage(), path);
-                console.log('Checking path:', path);
 
                 listAll(storageRef).then((result) => {
-                    console.log(`Found ${result.items.length} items in ${category}`);
                     result.items.forEach((itemRef) => {
                         getDownloadURL(itemRef).then((url) => {
-                            console.log('Displaying image from URL:', url);
-                            displayImage(url, itemRef.name);
+                            displayImage(url, itemRef.name, category); // Übergib 'category'
                         });
                     });
                 }).catch((error) => {
@@ -33,9 +29,7 @@ function loadUserImages() {
     });
 }
 
-
-
-function displayImage(url, name) {
+function displayImage(url, name, category) {
     const container = document.querySelector('.gridContainer');
     const itemBox = document.createElement('div');
     itemBox.className = 'itembox';
@@ -46,26 +40,23 @@ function displayImage(url, name) {
 
     const closeButton = document.createElement('button');
     closeButton.className = 'close-btn';
-    closeButton.innerHTML = '<img src="/ContentIcons/x-button.png"/>';
+    closeButton.innerHTML = '<img src="/Content/Icons/x-button.png" alt=""/>';
 
     // Event-Listener für den "Löschen"-Button
     closeButton.addEventListener('click', () => {
-        // Bestätigen, ob der Benutzer das Bild wirklich löschen möchte
-        if (confirm('Möchtest du dieses Bild wirklich löschen?')) {
-            // Bild aus Firebase Storage löschen
-            const storageReference = storageRef(getStorage(), `users/${auth.currentUser.uid}/images/${category}/${name}`);
+        // Bild aus Firebase Storage löschen
+        const storageReference = storageRef(getStorage(), `users/${auth.currentUser.uid}/images/${category}/${name}`);
 
-            console.log('Versuche, das Bild zu löschen:', storageReference.fullPath);
-
-            deleteObject(storageReference).then(() => {
-                console.log('Bild erfolgreich gelöscht:', name);
-                // Bild aus dem DOM entfernen
-                container.removeChild(itemBox);
-            }).catch((error) => {
-                console.error('Fehler beim Löschen des Bildes:', error);
-                alert('Fehler beim Löschen des Bildes. Überprüfe die Konsole für Details.');
-            });
-        }
+        deleteObject(storageReference).then(() => {
+            console.log('Bild erfolgreich gelöscht:', name);
+            // Bild aus dem DOM entfernen
+            container.removeChild(itemBox);
+            // Erfolgsmeldung anzeigen
+            showAlert('Bild erfolgreich gelöscht.', 'success');
+        }).catch((error) => {
+            console.error('Fehler beim Löschen des Bildes:', error);
+            showAlert('Fehler beim Löschen des Bildes.', 'error');
+        });
     });
 
     itemBox.appendChild(closeButton);
@@ -74,15 +65,31 @@ function displayImage(url, name) {
 }
 
 
+export function showAlert(message, type = 'success') {
+    // Erstelle ein div-Element für den Alert
+    const alertDiv = document.createElement('div');
+    alertDiv.classList.add('alert'); // Allgemeine Klasse für alle Alerts
+    alertDiv.classList.add(type); // Klasse für den spezifischen Typ (success, error)
 
-// Funktion zum Löschen eines Bildes aus Firebase Storage
-function deleteImage(imagePath) {
-    const imageRef = ref(storage, imagePath);
+    // HTML-Struktur für den Alert erstellen
+    alertDiv.innerHTML = `
+        <div class="alert__icon">
+            <!-- Optional: Füge hier ein SVG-Icon hinzu -->
+        </div>
+        <div class="alert__title">${message}</div>
+        <div class="alert__close" onclick="this.parentElement.remove()">
+            &times;
+        </div>
+    `;
 
-    deleteObject(imageRef).then(() => {
-        console.log('Bild erfolgreich gelöscht');
-    }).catch((error) => {
-        console.error('Fehler beim Löschen des Bildes:', error);
-    });
+    // Alert zum Container hinzufügen
+    const alertContainer = document.getElementById('alert-container');
+    alertContainer.appendChild(alertDiv);
+
+    // Alert nach 5 Sekunden automatisch entfernen
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
 }
+
 export { loadUserImages };
