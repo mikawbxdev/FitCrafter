@@ -48,10 +48,6 @@ function displayImage(url, name) {
     closeButton.className = 'close-btn';
     closeButton.innerHTML = '<img src="../ContentIcons/x-button.png"/>';
 
-    const text = document.createElement('div');
-    text.className = 'itemtext';
-    text.textContent = name;
-
     // Event-Listener für den "Löschen"-Button
     closeButton.addEventListener('click', () => {
         // Bestätigen, ob der Benutzer das Bild wirklich löschen möchte
@@ -74,7 +70,6 @@ function displayImage(url, name) {
 
     itemBox.appendChild(closeButton);
     itemBox.appendChild(img);
-    itemBox.appendChild(text);
     container.appendChild(itemBox);
 }
 
