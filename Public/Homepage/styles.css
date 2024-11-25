@@ -236,7 +236,6 @@ input::placeholder {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
     position: relative;
     padding: 0rem;
     /*border: 1px solid black;*/

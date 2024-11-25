@@ -17,6 +17,7 @@
     width: auto;
     height: auto;
     border-radius: 13px;
+    aspect-ratio: 1 / 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -158,3 +159,6 @@
 .alert__close path {
     fill: #2B641E;
 }
+/* test
+
+ */

@@ -133,7 +133,7 @@ function showFits(fits) {
         const fitHTML = `
             <div class="itembox" id="fit-${i}" onclick="window.location.href = '../Homepage/home.html?fit=${btoa(JSON.stringify(fit))}'">
                 <button class="close-btn">
-                    <img src="../.Content/Icons/x-button.png" alt="Delete fit">
+                    <img src="/Content/Icons/x-button.png" alt="Delete fit">
                 </button>
                 <div class="fitItemContainer">
                     <div class="fitPart" id="head-container-${i}">
