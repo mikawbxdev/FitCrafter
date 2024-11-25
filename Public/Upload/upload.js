@@ -1,6 +1,6 @@
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 // Importiere die auth und storage Konfiguration aus der fire.js-Datei
-import { auth, storage } from '/Firebase/fire.js';
+import { auth, storage } from '../Firebase/fire.js';
 import {
     getStorage,
     ref,
@@ -8,7 +8,7 @@ import {
     listAll,
     getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
-import { showAlert } from '/Homepage/index.js';
+import { showAlert } from '../Homepage/index.js';
 
 console.log('upload.js wurde geladen');
 
